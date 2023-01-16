@@ -23,7 +23,7 @@ const navConfig = [
   },
   {
     title: 'Citation Records',
-    path: '/violations-records',
+    path: '/citation-records',
     icon: getIcon('mdi:account-warning'),
   },
   {
@@ -31,11 +31,11 @@ const navConfig = [
     path: '/community-services',
     icon: getIcon('healthicons:community-meeting'),
   },
-  {
-    title: 'Payments',
-    path: '/payments',
-    icon: getIcon('material-symbols:payments-outline-sharp'),
-  },
+  // {
+  //   title: 'Payments',
+  //   path: '/payments',
+  //   icon: getIcon('material-symbols:payments-outline-sharp'),
+  // },
   {
     title: 'Users',
     path: '/users',

@@ -65,27 +65,6 @@ export default function Login() {
   return (
     <Page title="Login">
       <RootStyle>
-        <HeaderStyle>
-          {/* <Logo /> */}
-
-          {/* {smUp && (
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {''}
-              <Link variant="subtitle2" component={RouterLink} to="/register">
-                Get started
-              </Link>
-            </Typography>
-          )} */}
-        </HeaderStyle>
-
-        {/* {mdUp && (
-          <SectionStyle>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
-            </Typography>
-            <img src="/static/illustrations/illustration_login.png" alt="login" />
-          </SectionStyle>
-        )} */}
 
         <Container maxWidth="sm">
           <ContentStyle>

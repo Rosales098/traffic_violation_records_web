@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
-import ViolationCategoriesSlice from './violation-categories';
+import CategoriesSlice from './CategoriesSlice';
+import UserSlice from './UserSlice';
+import ViolationSlice from './ViolationSlice';
 
 const store = configureStore({
   reducer: {
-    violationCategories: ViolationCategoriesSlice
+    category: CategoriesSlice,
+    user: UserSlice,
+    violation: ViolationSlice
   }
 })
 

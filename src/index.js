@@ -4,6 +4,7 @@ import 'simplebar/src/simplebar.css';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { QueryClientProvider, QueryClient } from 'react-query';
 
 //
 import App from './App';
@@ -13,13 +14,24 @@ import reportWebVitals from './reportWebVitals';
 // ----------------------------------------------------------------------
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retryDelay: (attemptIndex) => Math.min(1000 * 3 ** attemptIndex, 30000),
+      refetchOnmount: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 root.render(
-  <HelmetProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </HelmetProvider>
+  <QueryClientProvider client={queryClient}>
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider>
+  </QueryClientProvider>
 );
 
 // If you want to enable client cache, register instead.

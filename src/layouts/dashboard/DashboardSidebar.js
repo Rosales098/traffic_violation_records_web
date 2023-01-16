@@ -14,7 +14,8 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 //
 import navConfig from './NavConfig';
-
+import { getLocalStorageItem } from '../../utils/getLocalStorage';
+import TreasurerNav from './TreasurerNav';
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -43,7 +44,7 @@ DashboardSidebar.propTypes = {
 
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-
+  const userData = getLocalStorageItem("userData");
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -80,7 +81,8 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         </Link>
       </Box>
 
-      <NavSection navConfig={navConfig} />
+      {/* <NavSection navConfig={navConfig} /> */}
+      <NavSection navConfig={userData?.role === 'admin' ? navConfig : TreasurerNav} />
 
       <Box sx={{ flexGrow: 1 }} />
 

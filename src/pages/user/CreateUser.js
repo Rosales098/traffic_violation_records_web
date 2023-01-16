@@ -1,11 +1,13 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Card, Link, Container, Typography, Stack, Box } from '@mui/material';
+import { Card, Link, Container, Typography, Tooltip, IconButton } from '@mui/material';
 // hooks
 import useResponsive from '../../hooks/useResponsive';
 // components
 import Page from '../../components/Page';
+import Iconify from '../../components/Iconify';
 // sections
 import CreateUserForm from '../../components/user/CreateUserForm';
 
@@ -14,11 +16,12 @@ import CreateUserForm from '../../components/user/CreateUserForm';
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
+    marginTop: -150,
   },
 }));
 
 const ContentStyle = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  maxWidth: '60%',
   margin: 'auto',
   minHeight: '100vh',
   display: 'flex',
@@ -31,35 +34,28 @@ const ContentStyle = styled('div')(({ theme }) => ({
 
 export default function CreateUser() {
   const smUp = useResponsive('up', 'sm');
-
   const mdUp = useResponsive('up', 'md');
+  const navigation = useNavigate();
 
   return (
     <Page title="Register">
       <RootStyle>
-
         <Container>
           <ContentStyle>
-            <Typography variant="h4" gutterBottom>
-              Signup
-            </Typography>
-
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-              No Credit card required
-            </Typography>
-
+            <div style={{padding: 5, zIndex: 9999}}>
+              <Tooltip title="View">
+                <IconButton onClick={() => navigation(-1)}>
+                  <Iconify icon="ion:arrow-back-circle" sx={{width: 30, height: 30}} />
+                </IconButton>
+              </Tooltip>
+              <Typography variant="h4" gutterBottom sx={{ mb: 2, alignSelf: 'flex-end' }}>
+                Creating User Account
+              </Typography>
+            </div>
             <CreateUserForm />
 
-            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
-              By registering, I agree to Google News&nbsp;
-              <Link underline="always" color="text.primary" href="#">
-                Terms of Service
-              </Link>
-              {' '}and{' '}
-              <Link underline="always" color="text.primary" href="#">
-                Privacy Policy
-              </Link>
-              .
+            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3, alignSelf: 'flex-start' }}>
+              Traffic Violation Record @ 2023
             </Typography>
 
             {!smUp && (

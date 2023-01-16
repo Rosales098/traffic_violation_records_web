@@ -4,29 +4,27 @@ import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { toast } from 'react-toastify';
+import { useMutation } from 'react-query';
 // @mui
 import { Link, Stack, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
-
+import { setLocalStorageItem } from '../../../utils/setLocalStorage';
+import { LoginSchema } from '../../../yup-schema/LoginSchema';
+import UserApi from '../../../service/UserApi';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
-
-  const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
-  });
+  const {login} = UserApi;
 
   const defaultValues = {
     email: '',
     password: '',
-    remember: true,
   };
 
   const methods = useForm({
@@ -39,8 +37,23 @@ export default function LoginForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+  const { mutate: loginUser, isLoading: loginUserLoading } = useMutation((payload) => login(payload), {
+    onSuccess: (data) => {
+      setLocalStorageItem('userToken', data.data.token, 9999);
+      setLocalStorageItem('userData', data.data.user, 9999);
+      if(data.data.user.role === 'admin') {
+      navigate(`/dashboard`);
+      return;
+      }
+      navigate('/welcome')
+    },
+    onError: (error) => {
+      toast.error(error.response.data.message);
+    },
+  });
+
+  const onSubmit = async (data) => {
+    loginUser(data)
   };
 
   return (

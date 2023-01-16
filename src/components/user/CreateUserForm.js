@@ -1,8 +1,9 @@
-import * as Yup from 'yup';
-
 import { useState, useMemo,useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
+import { useMutation, useQueryClient } from 'react-query';
+import { toast } from 'react-toastify';
+import moment from 'moment/moment';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,36 +14,41 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../Iconify';
 import { FormProvider, RHFTextField } from '../hook-form';
+import UserApi from '../../service/UserApi';
+
+// schema
+import { CreateUserSchema } from '../../yup-schema/user-schema/CreateUserSchema';
+
 
 // ----------------------------------------------------------------------
+const genderData = [
+  {value: 'male', label: 'Male'},
+  {value: 'female', label: 'Female'}
+]
 
+const positionData = [
+  {value: 'enforcer', label: 'Enforcer'},
+  {value: 'admin', label: 'Admin'},
+  {value: 'treasurer', label: 'Treasurer'},
+]
 export default function CreateUserForm() {
-  
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const RegisterSchema = Yup.object().shape({
-    firstname: Yup.string().required('First name required'),
-    lastname: Yup.string().required('Last name required'),
-    timezone: Yup.string().required('Timezone is required'),
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required').min(6, 'Your password must be atleat 6 characters.'),
-    confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
-  });
-
+  const {createUser} = UserApi;
+  
   const defaultValues = {
-    firstname: '',
-    lastname: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    timezone: '',
+    firstName: '',
+    middleName: '',
+    lastName: '',
+    gender: 'male',
+    role: 'enforcer',
   };
 
   const methods = useForm({
-    resolver: yupResolver(RegisterSchema),
+    resolver: yupResolver(CreateUserSchema),
     defaultValues,
   });
 
@@ -52,24 +58,35 @@ export default function CreateUserForm() {
   } = methods;
   
 
+  const { mutate: CreateUser, isLoading: isLoad } = useMutation((payload) => createUser(payload), {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['get-all-users']);
+      toast.success('Created successfully');
+      setIsLoading(true);
+      navigate(-1);
+    },
+    onError: (data) => {
+      console.log(data)
+      toast.error(data.response.data.message);
+      setIsLoading(false);
+    },
+  });
+
   const onSubmit = async (data) => {
+    console.log(data)
     setIsLoading(true);
     const payload = {
-      firstname: data.firstname,
-      lastname: data.lastname,
+      first_name: data.firstName,
+      middle_name: data.middleName,
+      last_name: data.lastName,
+      gender: data.gender,
+      phone_number: data.phoneNumber,
+      dob: moment(data.dob).format("MM/DD/YYYY"),
+      role: data.role,
       email: data.email,
-      password: data.password,
-      password_confirmation: data.confirmPassword,
-      timezone: data.timezone,
+      password: data.confirmPassword,
     };
-    // try {
-    //   await registerUser(payload);
-    //   toast.success('Email verification sent');
-    //   return navigate('/login');
-    // } catch (error) {
-    //   toast.error(error.response.data.message);
-    //   setIsLoading(false);
-    // }
+      await CreateUser(payload);
   };
 
 
@@ -77,10 +94,21 @@ export default function CreateUserForm() {
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-          <RHFTextField name="firstname" label="First name" />
-          <RHFTextField name="lastname" label="Last name" />
+          <RHFTextField name="firstName" label="First name" />
+          <RHFTextField name="middleName" label="Last name" />
+          <RHFTextField name="lastName" label="Last name" />
         </Stack>
 
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <RHFTextField name="gender" label="Gender" inputType='dropDown' dropDownData={genderData} />
+          <RHFTextField name="phoneNumber" label="Phone Number" type="number" />
+        </Stack>
+
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <RHFTextField name="dob" label="Date of Birth" inputType='datePicker' />
+          <RHFTextField name="role" label="Role" inputType='dropDown' dropDownData={positionData}/>
+        </Stack>
+        
         <RHFTextField name="email" label="Email address" />
 
         <RHFTextField
@@ -114,9 +142,9 @@ export default function CreateUserForm() {
         />
 
         <Stack direction="row" spacing={4}>
-          <Box width="60%">
-            <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isLoading}>
-              Register
+          <Box width="100%">
+            <LoadingButton fullWidth size="large" variant="contained" loading={isLoading} type="submit">
+              Create
             </LoadingButton>
           </Box>
         </Stack>

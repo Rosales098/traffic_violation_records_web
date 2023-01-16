@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useMutation, useQueryClient } from 'react-query';
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
@@ -7,6 +8,7 @@ import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@
 import MenuPopover from '../../components/MenuPopover';
 // mocks_
 import account from '../../_mock/account';
+import UserApi from '../../service/UserApi';
 
 // ----------------------------------------------------------------------
 
@@ -32,8 +34,19 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const anchorRef = useRef(null);
-
+  const navigate = useNavigate();
   const [open, setOpen] = useState(null);
+  const queryClient = useQueryClient();
+  const { logout } = UserApi;
+
+  const { mutate: logOut, isLoading: logOutLoading } = useMutation(() => logout(), {
+    onSettled: () => {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userData');
+      queryClient.clear();
+      navigate('/login', { replace: true });
+    },
+  });
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
@@ -101,7 +114,7 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+        <MenuItem onClick={() => logOut()} sx={{ m: 1 }}>
           Logout
         </MenuItem>
       </MenuPopover>
