@@ -34,7 +34,7 @@ const positionData = [
 export default function CreateUserForm() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const {createUser} = UserApi;

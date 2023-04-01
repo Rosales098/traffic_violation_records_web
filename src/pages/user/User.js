@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 // material
-import { Box, Chip, Tooltip, IconButton, Stack, Button, Typography } from '@mui/material';
+import { Container, Chip, Tooltip, IconButton, Stack, Button, Typography } from '@mui/material';
 import Iconify from '../../components/Iconify';
 // components
 import Page from '../../components/Page';
@@ -123,7 +123,7 @@ export default function User() {
 
   return (
     <Page title="User">
-      <Box sx={{ paddingLeft: 10, paddingRight: 10 }}>
+      <Container>
         <AppTable
           tableTitle={'User'}
           buttonTitle={'New User'}
@@ -142,7 +142,7 @@ export default function User() {
           ]}
           TABLE_DATA={userList}
         />
-      </Box>
+      </Container>
       <DialogModal
         open={open}
         handleClose={handleClose}

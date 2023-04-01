@@ -12,6 +12,11 @@ const TreasurerNav = [
     icon: getIcon('eva:pie-chart-2-fill'),
   },
   {
+    title: 'Invoices',
+    path: '/invoices',
+    icon: getIcon('material-symbols:payments-outline-sharp'),
+  },
+  {
     title: 'Payments',
     path: '/payments',
     icon: getIcon('material-symbols:payments-outline-sharp'),

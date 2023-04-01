@@ -12,7 +12,7 @@ export const CreateUserSchema = yup
       .string()
       .email('Invalid email format')
       .required('Please enter your Email'),
-    password: yup.string().required('Please enter your Password').min(6),
+    password: yup.string().required('Please enter your Password').min(6, "Password must be atleast 6 characters."),
     confirmPassword: yup
       .string()
       .required('Please enter your Password')

@@ -53,19 +53,6 @@ export default function CreateUser() {
               </Typography>
             </div>
             <CreateUserForm />
-
-            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3, alignSelf: 'flex-start' }}>
-              Traffic Violation Record @ 2023
-            </Typography>
-
-            {!smUp && (
-              <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
-                Already have an account?{' '}
-                <Link variant="subtitle2" to="/login" component={RouterLink}>
-                  Login
-                </Link>
-              </Typography>
-            )}
           </ContentStyle>
         </Container>
       </RootStyle>

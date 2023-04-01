@@ -56,7 +56,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function AppTable({ TABLE_HEAD, TABLE_DATA, tableTitle, buttonTitle, buttonFunction }) {
+export default function AppTable({ TABLE_HEAD, TABLE_DATA, tableTitle, buttonTitle, buttonFunction, hasButton = true }) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -124,9 +124,12 @@ export default function AppTable({ TABLE_HEAD, TABLE_DATA, tableTitle, buttonTit
         <Typography variant="h4" gutterBottom>
           {tableTitle}
         </Typography>
+        {hasButton ?
         <Button variant="contained" to="#" startIcon={<Iconify icon="eva:plus-fill" />} onClick={buttonFunction}>
           {buttonTitle}
         </Button>
+        : null
+        }
       </Stack>
 
       <Card>

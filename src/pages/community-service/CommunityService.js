@@ -4,11 +4,11 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Container } from '@mui/material';
 // components
-import Page from '../components/Page';
+import Page from '../../components/Page';
 
 // mock
-import USERLIST from '../_mock/user';
-import AppTable from '../components/table/AppTable';
+import USERLIST from '../../_mock/user';
+import AppTable from '../../components/table/AppTable';
 
 // ----------------------------------------------------------------------
 
