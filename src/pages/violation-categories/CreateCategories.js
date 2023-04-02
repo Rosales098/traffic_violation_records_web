@@ -16,7 +16,7 @@ import { LoadingButton } from '@mui/lab';
 
 import { RHFTextField, FormProvider } from '../../components/hook-form';
 import ViolationCategoriesApi from '../../service/ViolationCategoriesApi';
-import { CreateCategorySchema } from '../../yup-schema/category-schema/CreateCategorySchema';
+import { CreateCategorySchema } from '../../yup-schema/violation-category-schema/CreateCategorySchema';
 
 // schema
 

@@ -70,6 +70,7 @@
     "react-toastify": "^9.1.1",
     "simplebar": "^5.3.8",
     "simplebar-react": "^2.4.1",
+    "sweetalert2": "^11.7.3",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },

@@ -2,9 +2,10 @@ import PropTypes from 'prop-types';
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
-import { TextField, TextareaAutosize } from '@mui/material';
+import { TextField, TextareaAutosize, Typography, Box } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { borderColor } from '@mui/system';
 
 // ----------------------------------------------------------------------
 
@@ -73,14 +74,17 @@ export default function RHFTextField({ name, ...other }) {
         name={name}
         control={control}
         render={({ field, fieldState: { error } }) => (
-          <TextareaAutosize
-            {...field}
-            style={{width: '100%', fontSize: 16}}
-            value={field.value}
-            error={!!error}
-            helperText={error?.message}
-            {...other}
-          />
+          <Box width={"100%"}>
+            <TextareaAutosize
+              {...field}
+              style={{ width: '100%', fontSize: 16, borderColor: error ? 'red' : 'black', outline: 'none'}}
+              value={field.value}
+              error={!!error}
+              helperText={error?.message}
+              {...other}
+            />
+            {error ? <Typography sx={{color: '#FF3333', fontSize: 12, marginLeft: 2}}>{error.message}</Typography> : null}
+          </Box>
         )}
       />
     );
@@ -91,7 +95,7 @@ export default function RHFTextField({ name, ...other }) {
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => (
-        <TextField {...field} fullWidth value={field.value} error={!!error} helperText={error?.message} {...other}  />
+        <TextField {...field} fullWidth value={field.value} error={!!error} helperText={error?.message} {...other} />
       )}
     />
   );

@@ -1,47 +1,84 @@
-import { filter } from 'lodash';
-import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, {useEffect, useState} from 'react'; 
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from 'react-query';
 // material
-import { Container } from '@mui/material';
+import { Container, Tooltip, IconButton } from '@mui/material';
 // components
+import Iconify from '../../components/Iconify';
 import Page from '../../components/Page';
 
 // mock
 import USERLIST from '../../_mock/user';
 import AppTable from '../../components/table/AppTable';
 
+// api
+import communityServicesApi from '../../service/communityServicesApi';
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' },
-];
-
 export default function CommunityService() {
-  console.log(USERLIST)
+  const {getAllCommunityServices} = communityServicesApi
+  const navigate = useNavigate();
+  const [communityServiceList, setCommunityServiceList] = useState([]);
+  const {
+    data: communityServiceData,
+    status: communityServiceStatus,
+    isFetching: communityServiceIsFetching,
+  } = useQuery(['get-community-services'], () => getAllCommunityServices(), {
+    retry: 3, // Will retry failed requests 10 times before displaying an error
+  });
+  console.log(communityServiceData)
+  useEffect(() => {
+    if (communityServiceStatus === 'success') {
+      setCommunityServiceList(
+        communityServiceData.data.map((data) => ({
+          id: data.id,
+          name: `${data?.violator[0]?.last_name}, ${data?.violator[0]?.first_name} ${data?.violator[0]?.middle_name}`,
+          service: data.service.service_name,
+          timeToRender: data.service.time_to_render,
+          renderedTime: data.rendered_time,
+          timeRemaining: parseInt(data.service.time_to_render, 10) - parseInt(data.rendered_time, 10),
+          status: (
+            <span style={{fontWeight: 'bold', color: data.status === 'unsettled' ? 'orange' : 'green'}}>
+            {`${data.status.toUpperCase()}`}
+          </span>
+          ),
+          action: data.status === 'unsettled' ? (
+            <>
+              <Tooltip title="Update">
+                <IconButton
+                  onClick={async () => {
+                    navigate(`view/${data.id}`)
+                  }}
+                >
+                  <Iconify icon="material-symbols:edit" />
+                </IconButton>
+              </Tooltip>
+            </>
+          ) : null,
+        }))
+      );
+    }
+  }, [communityServiceStatus, communityServiceData]);
+
   return (
-    <Page title="User">
-      <Container>
+    <Page title="Community Service">
+      <Container maxWidth="xl">
         <AppTable
-          tableTitle={'User'}
-          buttonTitle={'New User'}
-          TABLE_HEAD={TABLE_HEAD}
-          TABLE_DATA={[
-            {
-              id: 1,
-              name: 'Arjohn',
-              company: 'wewe'
-            },
-            {
-              id: 2,
-              name: 'Nicollyn',
-              company: 'qweqw'
-            }
-          ]}
+          tableTitle={'Community Service'}
+          buttonTitle={'New Community Service'}
+          buttonFunction={() => {navigate('create')}}
+          TABLE_HEAD={
+            [
+              { id: 'name', label: 'Full Name', alignRight: false },
+              { id: 'service', label: 'Community Service Type', alignRight: false },
+              { id: 'timeToRender', label: 'Time to Render', alignRight: false },
+              { id: 'renderedTime', label: 'Rendered Time', alignRight: false },
+              { id: 'timeRemaining', label: 'Time Remaining', alignRight: false },
+              { id: 'status', label: 'Status', alignRight: false },
+              { id: 'action', label: 'Action', alignRight: false },
+            ]
+          }
+          TABLE_DATA={communityServiceList}
         />
       </Container>
     </Page>

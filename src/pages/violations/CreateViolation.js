@@ -22,7 +22,7 @@ import { ViolationSchema } from '../../yup-schema/violation-schema/ViolationSche
 
 // ----------------------------------------------------------------------
 
-export default function CreateViolation({ handleClose, action, setAction, categoryList}) {
+export default function CreateViolation({ handleClose, action, setAction, categoryList }) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export default function CreateViolation({ handleClose, action, setAction, catego
   const { violation } = useSelector((store) => store.violation);
 
   const defaultValues = {
-    categoryId: 1,
+    categoryId: categoryList.length > 0 ? categoryList[0].id : '',
     violation: '',
     penalty: '',
     description: '',
@@ -86,7 +86,7 @@ export default function CreateViolation({ handleClose, action, setAction, catego
       categoryId: violation_categories_id,
       violation: violation_name,
       penalty,
-      description
+      description,
     });
   }, [violation]);
 
@@ -111,7 +111,7 @@ export default function CreateViolation({ handleClose, action, setAction, catego
       violation_categories_id: data.categoryId,
       violation_name: data.violation,
       penalty: data.penalty,
-      description: data.description
+      description: data.description,
     };
     if (action === 'create') {
       return Create(payload);
@@ -128,7 +128,7 @@ export default function CreateViolation({ handleClose, action, setAction, catego
           </Stack>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <RHFTextField name="violation" label="Violation" />
-            <RHFTextField name="penalty" label="Penalty Amount" placeholder="P" type="number" />
+            <RHFTextField name="penalty" label="Penalty Amount" placeholder="₱" type="number" />
           </Stack>
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
             <RHFTextField name="description" label="Description" inputType="textarea" minRows={6} />
@@ -178,7 +178,14 @@ export default function CreateViolation({ handleClose, action, setAction, catego
           <Button variant="text" onClick={() => handleClose()}>
             Cancel
           </Button>
-          <LoadingButton variant="outlined" color="error" loading={isLoading} onClick = {() => {Delete(violation.id)}}>
+          <LoadingButton
+            variant="outlined"
+            color="error"
+            loading={isLoading}
+            onClick={() => {
+              Delete(violation.id);
+            }}
+          >
             Delete
           </LoadingButton>
         </Stack>

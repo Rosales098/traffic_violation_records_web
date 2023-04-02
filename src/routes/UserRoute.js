@@ -4,6 +4,8 @@ import ViolationCategories from '../pages/violation-categories/ViolationCategori
 import ViolationsPage from '../pages/violations/Violations';
 import CitationRecords from '../pages/citation/CitationRecords';
 import CommunityService from '../pages/community-service/CommunityService';
+import CreateCommunityService from '../pages/community-service/CreateCommunityService';
+import ViewCommunityService from '../pages/community-service/ViewCommunityService';
 import Payments from '../pages/Payments';
 import User from '../pages/user/User';
 import CreateUser from '../pages/user/CreateUser';
@@ -32,6 +34,8 @@ export default function UserRoute() {
           <Route path="violations-records" element={<CitationRecords />} />
           <Route path="invoices" element={<Invoice />} />
           <Route path="community-services" element={<CommunityService />} />
+          <Route path="community-services/create" element={<CreateCommunityService />} />
+          <Route path="community-services/view/:id" element={<ViewCommunityService />} />
           <Route path="users" element={<User />} />
           <Route path="user/create" element={<CreateUser />} />
           <Route path="user/view" element={<ViewUser />} />
