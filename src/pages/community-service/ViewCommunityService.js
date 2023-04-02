@@ -88,8 +88,6 @@ export default function ViewCommunityService() {
     retry: 3, // Will retry failed requests 10 times before displaying an error
   });
 
-  console.log(viewCitationData?.data[0]);
-
   const defaultValues = {
     citation: '',
     serviceTypeId: '',
@@ -112,10 +110,10 @@ export default function ViewCommunityService() {
 
   const setCommunityServiceHandler = useCallback(() => {
     if (viewCitationData?.data?.length > 0) {
-      const { violator, community_service_details_id, rendered_time, service, status } = viewCitationData?.data[0];
+      const { citation, community_service_details_id, rendered_time, service, status } = viewCitationData?.data[0];
       setCitationData(viewCitationData?.data[0]);
       reset({
-        citation: `${violator.last_name}, ${violator.first_name} ${violator.middle_name}`,
+        citation: `${citation?.violator?.last_name}, ${citation?.violator?.first_name} ${citation?.violator?.middle_name}`,
         serviceTypeId: community_service_details_id,
         renderedTime: rendered_time,
         timeToRender: service.time_to_render,

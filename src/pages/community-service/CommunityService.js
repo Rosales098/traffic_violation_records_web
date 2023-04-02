@@ -26,13 +26,13 @@ export default function CommunityService() {
   } = useQuery(['get-community-services'], () => getAllCommunityServices(), {
     retry: 3, // Will retry failed requests 10 times before displaying an error
   });
-  console.log(communityServiceData)
+
   useEffect(() => {
     if (communityServiceStatus === 'success') {
       setCommunityServiceList(
         communityServiceData.data.map((data) => ({
           id: data.id,
-          name: `${data?.violator[0]?.last_name}, ${data?.violator[0]?.first_name} ${data?.violator[0]?.middle_name}`,
+          name: `${data?.citation?.violator?.last_name}, ${data?.citation?.violator?.first_name} ${data?.citation?.violator?.middle_name}`,
           service: data.service.service_name,
           timeToRender: data.service.time_to_render,
           renderedTime: data.rendered_time,
@@ -69,6 +69,7 @@ export default function CommunityService() {
           buttonFunction={() => {navigate('create')}}
           TABLE_HEAD={
             [
+              { id: 'id', label: 'ID', alignRight: false },
               { id: 'name', label: 'Full Name', alignRight: false },
               { id: 'service', label: 'Community Service Type', alignRight: false },
               { id: 'timeToRender', label: 'Time to Render', alignRight: false },

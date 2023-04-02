@@ -6,7 +6,6 @@ import CitationRecords from '../pages/citation/CitationRecords';
 import CommunityService from '../pages/community-service/CommunityService';
 import CreateCommunityService from '../pages/community-service/CreateCommunityService';
 import ViewCommunityService from '../pages/community-service/ViewCommunityService';
-import Payments from '../pages/Payments';
 import User from '../pages/user/User';
 import CreateUser from '../pages/user/CreateUser';
 import Invoice from '../pages/invoice/Invoice';
@@ -19,6 +18,8 @@ import ViewUser from '../pages/user/ViewUser';
 import CommunityServiceTypes from '../pages/community-service-types/CommunityServiceTypes';
 import CreateServiceTypes from '../pages/community-service-types/CreateCommunityServiceTypes';
 import ViewCommunityServiceTypes from '../pages/community-service-types/ViewCommunityServiceTypes';
+import Payments from '../pages/payment/Payment';
+import CreatePayments from '../pages/payment/CreatePayment';
 // ----------------------------------------------------------------------
 
 export default function UserRoute() {
@@ -33,6 +34,8 @@ export default function UserRoute() {
           <Route path="/" element={<DashboardApp />} />
           <Route path="violations-records" element={<CitationRecords />} />
           <Route path="invoices" element={<Invoice />} />
+          <Route path="payments" element={<Payments />} />
+          <Route path="payments/create" element={<CreatePayments />} />
           <Route path="community-services" element={<CommunityService />} />
           <Route path="community-services/create" element={<CreateCommunityService />} />
           <Route path="community-services/view/:id" element={<ViewCommunityService />} />
