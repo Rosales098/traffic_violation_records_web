@@ -20,8 +20,9 @@ import CreateServiceTypes from '../pages/community-service-types/CreateCommunity
 import ViewCommunityServiceTypes from '../pages/community-service-types/ViewCommunityServiceTypes';
 import Payments from '../pages/payment/Payment';
 import CreatePayments from '../pages/payment/CreatePayment';
-import TreasurerReport from '../pages/reports/TreasurerReport';
-import AdminReports from '../pages/reports/AdminReports';
+import PaymentsTreasurer from '../pages/payment/PaymentTreasurer';
+import TreasurerReport from '../pages/reports/treasurer/TreasurerReport';
+import AdminReports from '../pages/reports/admin/AdminReports';
 // ----------------------------------------------------------------------
 
 export default function UserRoute() {
@@ -65,9 +66,9 @@ export default function UserRoute() {
           {/* <Route path="/" element={<DashboardApp />} /> */}
           <Route path="/" element={<Invoice />} />
           <Route path="invoices" element={<Invoice />} />
-          <Route path="payments" element={<Payments />} />
-          <Route path="payments/create" element={<CreatePayments />} />
-          <Route path="reports" element={<TreasurerReport />} />
+          <Route path="payments/:id" element={<PaymentsTreasurer />} />
+          <Route path="payments/:id/create" element={<CreatePayments />} />
+          <Route path="reports/:id" element={<TreasurerReport />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

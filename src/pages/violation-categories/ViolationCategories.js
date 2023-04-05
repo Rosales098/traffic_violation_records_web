@@ -100,7 +100,7 @@ export default function ViolationCategories() {
         }))
       );
     }
-  }, [categoryStatus, categoryIsFetching]);
+  }, [categoryStatus, categoryIsFetching, categoryData?.data, dispatch]);
 
   return (
     <Page title="Violation-Categories">

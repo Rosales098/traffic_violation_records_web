@@ -1,9 +1,11 @@
 // component
 import Iconify from '../../components/Iconify';
+import { getLocalStorageItem } from '../../utils/getLocalStorage';
 
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
+const userData = getLocalStorageItem("userData");
 
 const TreasurerNav = [
   {
@@ -13,12 +15,12 @@ const TreasurerNav = [
   },
   {
     title: 'Payments',
-    path: '/payments',
+    path: `/payments/${userData.id}`,
     icon: getIcon('material-symbols:payments-outline-sharp'),
   },
   {
     title: 'Reports',
-    path: '/reports',
+    path: `/reports/${userData.id}`,
     icon: getIcon('iconoir:reports'),
   },
 ];
