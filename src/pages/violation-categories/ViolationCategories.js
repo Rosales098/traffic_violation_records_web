@@ -60,11 +60,10 @@ export default function ViolationCategories() {
     await Delete(category.id)
   };
 
-
   useEffect(() => {
     if (categoryStatus === 'success') {
       setCategoryList(
-        categoryData.data.map((data) => ({
+        categoryData?.data?.map((data) => ({
           id: (
             <span>
               {`#${data.id}`}

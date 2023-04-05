@@ -6,30 +6,21 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
 // components
 import MenuPopover from '../../components/MenuPopover';
+import { getLocalStorageItem } from '../../utils/getLocalStorage';
 // mocks_
-import account from '../../_mock/account';
 import UserApi from '../../service/UserApi';
 
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: 'Home',
-    icon: 'eva:home-fill',
-    linkTo: '/',
-  },
-  {
     label: 'Profile',
     icon: 'eva:person-fill',
     linkTo: '#',
   },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-    linkTo: '#',
-  },
 ];
-
+const adminAvatar = '/static/mock-images/avatars/admin.png';
+const treasurerAvatar = '/static/mock-images/avatars/cfo.png';
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
@@ -38,6 +29,8 @@ export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const queryClient = useQueryClient();
   const { logout } = UserApi;
+
+  const userData = getLocalStorageItem('userData');
 
   const { mutate: logOut, isLoading: logOutLoading } = useMutation(() => logout(), {
     onSettled: () => {
@@ -76,7 +69,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={account.photoURL} alt="photoURL" />
+        <Avatar src={userData?.role === 'admin' ? adminAvatar : treasurerAvatar} alt="photoURL" />
       </IconButton>
 
       <MenuPopover
@@ -95,10 +88,12 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {`${userData.first_name.charAt(0).toUpperCase() + userData.first_name.slice(1)}
+              ${userData.middle_name.charAt(0).toUpperCase()}.
+              ${userData.last_name.charAt(0).toUpperCase() + userData.last_name.slice(1)}`}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {userData?.email}
           </Typography>
         </Box>
 

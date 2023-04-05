@@ -8,7 +8,6 @@ import Iconify from '../../components/Iconify';
 import Page from '../../components/Page';
 
 // mock
-import USERLIST from '../../_mock/user';
 import AppTable from '../../components/table/AppTable';
 
 // api

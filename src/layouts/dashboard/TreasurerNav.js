@@ -7,11 +7,6 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 
 const TreasurerNav = [
   {
-    title: 'dashboard',
-    path: '/dashboard',
-    icon: getIcon('eva:pie-chart-2-fill'),
-  },
-  {
     title: 'Invoices',
     path: '/invoices',
     icon: getIcon('material-symbols:payments-outline-sharp'),
@@ -20,6 +15,11 @@ const TreasurerNav = [
     title: 'Payments',
     path: '/payments',
     icon: getIcon('material-symbols:payments-outline-sharp'),
+  },
+  {
+    title: 'Reports',
+    path: '/reports',
+    icon: getIcon('iconoir:reports'),
   },
 ];
 

@@ -55,7 +55,7 @@ export default function RHFTextField({ name, ...other }) {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
               // inputFormat="MM/DD/YYYY"
-              label="Date of Birth"
+              label={other.label || "Date of Birth"}
               // maxDate={new Date()}
               value={field.value}
               onChange={field.onChange}

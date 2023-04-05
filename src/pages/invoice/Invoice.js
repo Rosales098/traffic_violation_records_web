@@ -16,7 +16,6 @@ import DialogModal from '../../components/dialog-modal/DialogModal';
 import ViolationCategoriesApi from '../../service/ViolationCategoriesApi';
 import invoiceApi from '../../service/invoiceApi';
 import ViolationsApi from '../../service/ViolationsApi';
-import { setCategory, removeCategory } from '../../store/CategoriesSlice';
 import InvoiceDetails from './InvoiceDetails';
 
 // ----------------------------------------------------------------------
@@ -29,7 +28,8 @@ export default function Invoice() {
   const [open, setOpen] = useState(false);
   const [invoiceList, setInvoiceList] = useState([]);
   const [violationsList, setViolationsList] = useState([]);
-  const { category } = useSelector((store) => store.category);
+  
+  const [invoiceDetailsData, setInvoiceDetailsData] = useState({});
 
   const openDialog = () => {
     setOpen(true);
@@ -37,7 +37,6 @@ export default function Invoice() {
 
   const handleClose = () => {
     setOpen(false);
-    dispatch(removeCategory());
   };
 
   const {
@@ -97,7 +96,7 @@ export default function Invoice() {
               <Tooltip title="View">
                 <IconButton
                   onClick={async () => {
-                    await dispatch(setCategory(data));
+                    setInvoiceDetailsData(data)
                     openDialog();
                   }}
                 >
@@ -113,7 +112,7 @@ export default function Invoice() {
 
   return (
     <Page title="Invoices">
-      <Container>
+      <Container maxWidth="xl">
         <AppTable
           tableTitle={'Invoices'}
           hasButton={false}
@@ -143,7 +142,7 @@ export default function Invoice() {
         fullWidth
         maxWidth={'md'}
       >
-        <InvoiceDetails />
+        <InvoiceDetails invoiceDetailsData={invoiceDetailsData}/>
       </Dialog>
     </Page>
   );

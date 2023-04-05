@@ -123,7 +123,7 @@ export default function User() {
 
   return (
     <Page title="User">
-      <Container>
+      <Container maxWidth="xl">
         <AppTable
           tableTitle={'User'}
           buttonTitle={'New User'}

@@ -14,8 +14,9 @@ AppOrderTimeline.propTypes = {
 };
 
 export default function AppOrderTimeline({ title, subheader, list, ...other }) {
+  console.log(list);
   return (
-    <Card {...other}>
+    <Card {...other} sx={{ maxHeight: 500, overflowY: 'scroll', height: 500 }}>
       <CardHeader title={title} subheader={subheader} />
 
       <CardContent
@@ -26,7 +27,7 @@ export default function AppOrderTimeline({ title, subheader, list, ...other }) {
         }}
       >
         <Timeline>
-          {list.map((item, index) => (
+          {list?.map((item, index) => (
             <OrderItem key={item.id} item={item} isLast={index === list.length - 1} />
           ))}
         </Timeline>
@@ -47,27 +48,26 @@ OrderItem.propTypes = {
 };
 
 function OrderItem({ item, isLast }) {
-  const { type, title, time } = item;
   return (
     <TimelineItem>
       <TimelineSeparator>
         <TimelineDot
           color={
-            (type === 'order1' && 'primary') ||
-            (type === 'order2' && 'success') ||
-            (type === 'order3' && 'info') ||
-            (type === 'order4' && 'warning') ||
-            'error'
+            (item?.role === 'admin' && 'primary') ||
+            (item?.role === 'treasurer' && 'success') ||
+            (item?.role === 'enforcer' && 'warning')
           }
         />
         {isLast ? null : <TimelineConnector />}
       </TimelineSeparator>
 
       <TimelineContent>
-        <Typography variant="subtitle2">{title}</Typography>
+        <Typography variant="subtitle2">{`${item?.first_name.charAt(0).toUpperCase() + item?.first_name.slice(1)} ${item?.middle_name?.charAt(0).toUpperCase()}. ${
+          item?.last_name.charAt(0).toUpperCase() + item?.last_name.slice(1)
+        }`}</Typography>
 
         <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-          {fDateTime(time)}
+          {item?.role?.toUpperCase()}
         </Typography>
       </TimelineContent>
     </TimelineItem>

@@ -11,7 +11,7 @@ import CreateUser from '../pages/user/CreateUser';
 import Invoice from '../pages/invoice/Invoice';
 import { getLocalStorageItem } from '../utils/getLocalStorage';
 import DashboardLayout from '../layouts/dashboard';
-import DashboardApp from '../pages/DashboardApp';
+import DashboardApp from '../pages/dashboard/DashboardApp';
 import Page404 from '../pages/Page404';
 import Login from '../pages/Login';
 import ViewUser from '../pages/user/ViewUser';
@@ -20,6 +20,8 @@ import CreateServiceTypes from '../pages/community-service-types/CreateCommunity
 import ViewCommunityServiceTypes from '../pages/community-service-types/ViewCommunityServiceTypes';
 import Payments from '../pages/payment/Payment';
 import CreatePayments from '../pages/payment/CreatePayment';
+import TreasurerReport from '../pages/reports/TreasurerReport';
+import AdminReports from '../pages/reports/AdminReports';
 // ----------------------------------------------------------------------
 
 export default function UserRoute() {
@@ -32,6 +34,7 @@ export default function UserRoute() {
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
           <Route path="/" element={<DashboardApp />} />
+          <Route path="/dashboard" element={<DashboardApp />} />
           <Route path="violations-records" element={<CitationRecords />} />
           <Route path="invoices" element={<Invoice />} />
           <Route path="payments" element={<Payments />} />
@@ -47,6 +50,7 @@ export default function UserRoute() {
           <Route path="settings/community-services-types" element={<CommunityServiceTypes />} />
           <Route path="settings/community-services-types/create" element={<CreateServiceTypes />} />
           <Route path="settings/community-services-types/view" element={<ViewCommunityServiceTypes />} />
+          <Route path="reports" element={<AdminReports />} />
           <Route path="*" element={<Navigate to="/" state={{ from: location }} replace />} />
         </Route>
         {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
@@ -58,8 +62,12 @@ export default function UserRoute() {
     return (
       <Routes>
         <Route path="/" element={<DashboardLayout />}>
-          <Route path="/" element={<DashboardApp />} />
+          {/* <Route path="/" element={<DashboardApp />} /> */}
+          <Route path="/" element={<Invoice />} />
+          <Route path="invoices" element={<Invoice />} />
           <Route path="payments" element={<Payments />} />
+          <Route path="payments/create" element={<CreatePayments />} />
+          <Route path="reports" element={<TreasurerReport />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

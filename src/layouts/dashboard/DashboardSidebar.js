@@ -4,8 +4,6 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { styled } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
-// mock
-import account from '../../_mock/account';
 // hooks
 import useResponsive from '../../hooks/useResponsive';
 // components
@@ -42,9 +40,12 @@ DashboardSidebar.propTypes = {
   onCloseSidebar: PropTypes.func,
 };
 
+const adminAvatar = '/static/mock-images/avatars/admin.png';
+const treasurerAvatar = '/static/mock-images/avatars/cfo.png';
+
 export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useLocation();
-  const userData = getLocalStorageItem("userData");
+  const userData = getLocalStorageItem('userData');
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -68,13 +69,15 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
       <Box sx={{ mb: 5, mx: 2.5 }}>
         <Link underline="none" component={RouterLink} to="#">
           <AccountStyle>
-            <Avatar src={account.photoURL} alt="photoURL" />
+            <Avatar src={userData?.role === 'admin' ? adminAvatar : treasurerAvatar} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {account.displayName}
+                {`${userData.first_name.charAt(0).toUpperCase() + userData.first_name.slice(1)}
+                  ${userData.middle_name.charAt(0).toUpperCase()}.
+                  ${userData.last_name.charAt(0).toUpperCase() + userData.last_name.slice(1)}`}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {account.role}
+                {userData.role.toUpperCase()}
               </Typography>
             </Box>
           </AccountStyle>

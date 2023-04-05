@@ -43,6 +43,7 @@ export default function CreateUserForm() {
     firstName: '',
     middleName: '',
     lastName: '',
+    dob: new Date(),
     gender: 'male',
     role: 'enforcer',
   };

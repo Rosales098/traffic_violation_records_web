@@ -84,7 +84,7 @@ export default function LoginForm() {
         </Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting} sx={{marginTop: 5}}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loginUserLoading} sx={{marginTop: 5}}>
         Login
       </LoadingButton>
     </FormProvider>

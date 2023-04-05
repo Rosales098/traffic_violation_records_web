@@ -47,7 +47,7 @@ export default function CitationRecords() {
   } = useQuery(['get-all-citations'], () => getAllCitations(), {
     retry: 3, // Will retry failed requests 10 times before displaying an error
   });
-  console.log(citationData?.data)
+
   useEffect(() => {
     if(citationStatus === 'success') {
       setCitationList(
