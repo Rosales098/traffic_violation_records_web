@@ -155,9 +155,9 @@ const AdminReports = () => {
     if (reportSelected == 1 && data.yearStart > data.yearEnd) {
       return toast.error('Incorrect years selected.');
     }
-
+    
     // eslint-disable-next-line eqeqeq
-    if (reportSelected == 3 && data.fromMonth > data.toMonth) {
+    if (reportSelected == 3 && parseInt(data.fromMonth, 10) > parseInt(data.toMonth, 10)) {
       return toast.error('Incorrect months selected.');
     }
 

@@ -51,6 +51,7 @@ export default function ViewCommunityService() {
   const [servicesList, setServicesList] = useState([]);
   const [open, setOpen] = useState(false);
   const [citationData, setCitationData] = useState([]);
+  const [serviceId, setServiceId] = useState([]);
 
   const openDialog = () => {
     setOpen(true);
@@ -112,11 +113,13 @@ export default function ViewCommunityService() {
     if (viewCitationData?.data?.length > 0) {
       const { citation, community_service_details_id, rendered_time, service, status } = viewCitationData?.data[0];
       setCitationData(viewCitationData?.data[0]);
+      setServiceId(community_service_details_id);
       reset({
         citation: `${citation?.violator?.last_name}, ${citation?.violator?.first_name} ${citation?.violator?.middle_name}`,
         serviceTypeId: community_service_details_id,
         renderedTime: rendered_time,
-        timeToRender: service.time_to_render,
+        discount: `${service.discount}%`,
+        timeToRender: `${service.time_to_render} hours`,
         status,
       });
     }
@@ -125,6 +128,13 @@ export default function ViewCommunityService() {
   useEffect(() => {
     setCommunityServiceHandler();
   }, [setCommunityServiceHandler]);
+
+  useEffect(() => {
+    const data = servicesData?.data?.filter((x) => x.id == serviceId);
+    setValue('serviceTypeId', data[0]?.id);
+    setValue('discount', `${data[0]?.discount}%` || 0);
+    setValue('timeToRender', `${data[0]?.time_to_render} hours` || 0);
+  }, [serviceId, servicesData?.data, setValue]);
 
   const { mutate: Update, isLoading: isLoad } = useMutation((payload) => updateCommunityServices(id, payload), {
     onSuccess: (data) => {
@@ -141,21 +151,22 @@ export default function ViewCommunityService() {
   });
 
   const onSubmit = async (data) => {
-    if (parseInt(servicesData?.data[0]?.time_to_render, 10) < parseInt(data.renderedTime, 10)) {
+    const serviceData = servicesData.data.filter((x) => x.id == serviceId)
+    if (parseInt(serviceData[0]?.time_to_render, 10) < parseInt(data.renderedTime, 10)) {
       return toast.error(
         'Invalid User Input. Please make sure Rendered Time is not greater than Time to Render value.'
       );
     }
 
     if (
-      (parseInt(servicesData?.data[0]?.time_to_render, 10) > parseInt(data.renderedTime, 10) &&
+      (parseInt(serviceData[0]?.time_to_render, 10) > parseInt(data.renderedTime, 10) &&
         data.status === 'settled') ||
-      parseInt(servicesData?.data[0]?.time_to_render, 10) == parseInt(data.renderedTime, 10)
+      parseInt(serviceData[0]?.time_to_render, 10) == parseInt(data.renderedTime, 10)
     ) {
       Swal.fire({
         title: 'Are you sure?',
         text:
-          parseInt(servicesData?.data[0]?.time_to_render, 10) > parseInt(data.renderedTime, 10) &&
+          parseInt(serviceData[0]?.time_to_render, 10) > parseInt(data.renderedTime, 10) &&
           data.status === 'settled'
             ? "You set status to Settled even Rendered Time did not make the required hours. This will automatically set Community Service Settled and discount the Invoice. You won't be able to revert this."
             : "You entered Rendered Time as equal to Time To Render. This will automatically set Community Service Settled and discount the Invoice. You won't be able to revert this.",
@@ -173,7 +184,7 @@ export default function ViewCommunityService() {
             community_service_details_id: data.serviceTypeId,
             rendered_time: data.renderedTime,
             status:
-              parseInt(servicesData?.data[0]?.time_to_render, 10) == parseInt(data.renderedTime, 10)
+              parseInt(serviceData[0]?.time_to_render, 10) == parseInt(data.renderedTime, 10)
                 ? 'settled'
                 : data.status,
           };
@@ -229,7 +240,10 @@ export default function ViewCommunityService() {
                 label="Service Name"
                 inputType="dropDown"
                 dropDownData={servicesList}
+                setServiceId={setServiceId}
+                disabled
               />
+              <RHFTextField name="discount" label="Discount" disabled style={{ width: 200 }} />
               <RHFTextField name="timeToRender" label="Time To Render" disabled style={{ width: 200 }} />
             </Stack>
             <Stack direction={{ xs: 'column' }} spacing={2} sx={{ marginTop: 2 }}>

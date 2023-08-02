@@ -65,7 +65,7 @@ export default function CitationRecords() {
                   <Iconify icon="ic:baseline-remove-red-eye" />
                 </IconButton>
               </Tooltip>
-              <Tooltip
+              {/* <Tooltip
                 title="Delete"
                 onClick={() => {
                   // dispatch(setCategory(data));
@@ -76,7 +76,7 @@ export default function CitationRecords() {
                 <IconButton>
                   <Iconify icon="bxs:trash" />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
             </Box>
           ),
           id: (

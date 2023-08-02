@@ -13,11 +13,7 @@ import {
 } from 'chart.js';
 
 const AdminGraph = ({
-  showLabel = false,
-  lineGraphLabel = '',
-  secondLineGraphLabel = '',
   lineGraphData,
-  secondLineGraphData,
   // eslint-disable-next-line react/prop-types
 }) => {
   ChartJS.register(Title, Tooltip, LineElement, CategoryScale, LinearScale, PointElement, Filler, Legend);
@@ -27,7 +23,7 @@ const AdminGraph = ({
     datasets: [
       {
         showLabel: true,
-        data: lineGraphData.map((data) => data.month),
+        data: lineGraphData.map((data) => data.total),
         label: 'Violations Recorded',
         backgroundColor: '#E9F5FF',
         borderColor: '#1282A2',

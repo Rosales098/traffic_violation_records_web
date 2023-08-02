@@ -66,10 +66,10 @@ export default function ViolationCategories() {
         categoryData?.data?.map((data) => ({
           id: (
             <span>
-              {`#${data.id}`}
+              {`#${data?.id}`}
             </span>
           ),
-          categoryName: data.category_name,
+          categoryName: data?.category_name,
           action: (
             <>
               <Tooltip title="View">
@@ -83,7 +83,7 @@ export default function ViolationCategories() {
                   <Iconify icon="ic:baseline-remove-red-eye" />
                 </IconButton>
               </Tooltip>
-              <Tooltip
+              {/* <Tooltip
                 title="Delete"
                 onClick={() => {
                   dispatch(setCategory(data));
@@ -94,19 +94,19 @@ export default function ViolationCategories() {
                 <IconButton>
                   <Iconify icon="bxs:trash" />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
             </>
           ),
         }))
       );
     }
-  }, [categoryStatus, categoryIsFetching, categoryData?.data, dispatch]);
+  }, [categoryStatus, categoryData?.data, dispatch]);
 
   return (
     <Page title="Violation-Categories">
       <Container>
         <AppTable
-          tableTitle={'Violation Categories'}
+          tableTitle={'Violation'}
           buttonTitle={'New Category'}
           buttonFunction={() => {
             openDialog();

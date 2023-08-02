@@ -1,22 +1,14 @@
-import { faker } from '@faker-js/faker';
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 // @mui
 import { Grid, Container, Typography } from '@mui/material';
 // components
 import Page from '../../components/Page';
-import Iconify from '../../components/Iconify';
+
 // sections
 import {
-  AppTasks,
-  AppNewsUpdate,
   AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
   AppWidgetSummary,
-  AppCurrentSubject,
-  AppConversionRates,
 } from '../../sections/@dashboard/app';
 import DashboardApi from '../../service/DashboardApi';
 import AdminGraph from './AdminGraph';
@@ -30,7 +22,7 @@ export default function DashboardApp() {
     data: dashboardData,
     status: dashboardStatus,
     isFetching: dashboardIsFetching,
-  } = useQuery(['get-all-categories'], () => getDashboard(), {
+  } = useQuery(['get-dashboard'], () => getDashboard(), {
     retry: 3, // Will retry failed requests 10 times before displaying an error
   });
 

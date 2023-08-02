@@ -85,14 +85,14 @@ export default function User() {
                   <Iconify icon="ic:baseline-remove-red-eye" />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Delete" onClick={() => {
+              {/* <Tooltip title="Delete" onClick={() => {
                 dispatch(setUser(data));
                 openDialog()
               }}>
                 <IconButton>
                   <Iconify icon="bxs:trash" />
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
             </>
           ),
         }))

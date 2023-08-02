@@ -20,7 +20,7 @@ import UserApi from '../../../service/UserApi';
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const {login} = UserApi;
+  const { login } = UserApi;
 
   const defaultValues = {
     email: '',
@@ -41,11 +41,11 @@ export default function LoginForm() {
     onSuccess: (data) => {
       setLocalStorageItem('userToken', data.data.token, 9999);
       setLocalStorageItem('userData', data.data.user, 9999);
-      if(data.data.user.role === 'admin') {
-      navigate(`/dashboard`);
-      return;
+      if (data.data.user.role === 'admin') {
+        navigate(`/dashboard`);
+        return;
       }
-      navigate('/welcome')
+      navigate('/welcome');
     },
     onError: (error) => {
       toast.error(error.response.data.message);
@@ -53,7 +53,7 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data) => {
-    loginUser(data)
+    loginUser(data);
   };
 
   return (
@@ -78,13 +78,27 @@ export default function LoginForm() {
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 2 }}>
-        {/* <RHFCheckbox name="remember" label="Remember me" /> */}
-        <Link variant="subtitle2" underline="hover">
+        <Link
+          rel="noopener"
+          variant="subtitle2"
+          underline="hover"
+          sx={{ cursor: 'pointer' }}
+          onClick={() => {
+            navigate('/forgot-password');
+          }}
+        >
           Forgot password?
         </Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={loginUserLoading} sx={{marginTop: 5}}>
+      <LoadingButton
+        fullWidth
+        size="large"
+        type="submit"
+        variant="contained"
+        loading={loginUserLoading}
+        sx={{ marginTop: 5 }}
+      >
         Login
       </LoadingButton>
     </FormProvider>

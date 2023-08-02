@@ -18,8 +18,6 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retryDelay: (attemptIndex) => Math.min(1000 * 3 ** attemptIndex, 30000),
-      refetchOnmount: false,
-      refetchOnWindowFocus: false,
     },
   },
 });

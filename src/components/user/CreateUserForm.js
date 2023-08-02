@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Stack, IconButton, InputAdornment, Box, Card } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// BUBU
+
 // components
 import Iconify from '../Iconify';
 import { FormProvider, RHFTextField } from '../hook-form';

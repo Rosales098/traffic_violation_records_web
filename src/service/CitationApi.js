@@ -1,10 +1,5 @@
 import apiService from './axios';
 
-const headersApplicationJSON = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-};
-
 export default {
   getAllCitations: () => apiService.get(`/citation`),
   createCitation: (data) => apiService.post(`/create-citation`, data),

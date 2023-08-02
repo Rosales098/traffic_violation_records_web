@@ -63,8 +63,9 @@ export default function Payments() {
       <Container maxWidth="xl">
         <AppTable
           tableTitle={'Payments Records'}
-          buttonTitle={'New Payment'}
-          buttonFunction={() => {navigate('create')}}
+          // buttonTitle={'New Payment'}
+          // buttonFunction={() => {navigate('create')}}
+          hasButton={false}
           TABLE_HEAD={
             [
               { id: 'violator', label: 'Violator Full Name', alignRight: false },

@@ -13,7 +13,7 @@ RHFTextField.propTypes = {
   name: PropTypes.string,
 };
 
-export default function RHFTextField({ name, ...other }) {
+export default function RHFTextField({ name, setServiceId = ()=>{}, ...other }) {
   const { control } = useFormContext();
 
   if (other?.inputType === 'dropDown') {
@@ -29,7 +29,10 @@ export default function RHFTextField({ name, ...other }) {
             SelectProps={{ native: true }}
             variant="outlined"
             value={value}
-            onChange={onChange}
+            onChange={(event) => {
+              onChange(event.target.value)
+              setServiceId(event.target.value)
+            }}
             onBlur={onBlur}
             error={!!error}
             helperText={error?.message}

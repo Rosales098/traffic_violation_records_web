@@ -15,12 +15,12 @@ const TreasurerNav = [
   },
   {
     title: 'Payments',
-    path: `/payments/${userData.id}`,
+    path: `/payments/${userData?.id}`,
     icon: getIcon('material-symbols:payments-outline-sharp'),
   },
   {
     title: 'Reports',
-    path: `/reports/${userData.id}`,
+    path: `/reports/${userData?.id}`,
     icon: getIcon('iconoir:reports'),
   },
 ];

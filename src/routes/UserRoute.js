@@ -23,6 +23,8 @@ import CreatePayments from '../pages/payment/CreatePayment';
 import PaymentsTreasurer from '../pages/payment/PaymentTreasurer';
 import TreasurerReport from '../pages/reports/treasurer/TreasurerReport';
 import AdminReports from '../pages/reports/admin/AdminReports';
+import ForgotPassword from '../pages/forgot-password/ForgotPassword';
+import ResetPassword from '../pages/forgot-password/ResetPassword';
 // ----------------------------------------------------------------------
 
 export default function UserRoute() {
@@ -78,7 +80,9 @@ export default function UserRoute() {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="signin" element={<Login />} />
-      <Route path="*" element={<Navigate to="/signin" state={{ from: location }} replace />} />
+      <Route path="forgot-password" element={<ForgotPassword />} />
+      <Route path="resetpass" element={<ResetPassword />} />
+      {/* <Route path="*" element={<Navigate to="/signin" state={{ from: location }} replace />} /> */}
     </Routes>
   );
 }
