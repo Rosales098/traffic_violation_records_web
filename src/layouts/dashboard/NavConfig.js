@@ -46,11 +46,11 @@ const navConfig = [
     path: '/settings',
     icon: getIcon('material-symbols:settings'),
     children: [
-      {
-        title: 'Violation Categories',
-        path: 'settings/violation-categories',
-        icon: getIcon('carbon:category'),
-      },
+      // {
+      //   title: 'Violation Categories',
+      //   path: 'settings/violation-categories',
+      //   icon: getIcon('carbon:category'),
+      // },
       {
         title: 'Violations List',
         path: 'settings/violations-list',

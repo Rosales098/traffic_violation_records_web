@@ -110,17 +110,21 @@ export default function CreateCommunityService() {
   }, [servicesData, setValue]);
 
   useEffect(() => {
-    const data = servicesData?.data?.filter((x) => x.id == serviceId);
-    if(_.isEmpty(data)) {
-      setValue('serviceTypeId', data[0]?.id);
-      setValue('discount', `0%`);
-      setValue('timeToRender', `0 hours`);
-      return
-    }
+
+    if(_.isEmpty(servicesData)) {
+      const data = servicesData?.data?.filter((x) => x.id == serviceId);
+      if(_.isEmpty(data)) { 
+        setValue('serviceTypeId', data[0]?.id);
+        setValue('discount', `0%`);
+        setValue('timeToRender', `0 hours`);
+        return
+      }
       setValue('serviceTypeId', data[0]?.id);
       setValue('discount', `${data[0]?.discount}%`);
       setValue('timeToRender', `${data[0]?.time_to_render} hours`);
-  }, [serviceId, servicesData?.data, setValue]);
+    }
+
+  }, [serviceId, servicesData, servicesData?.data, setValue]);
 
   useEffect(() => {
     if (!_.isEmpty(citationData)) {

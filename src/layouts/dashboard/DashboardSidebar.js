@@ -72,9 +72,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
             <Avatar src={userData?.role === 'admin' ? adminAvatar : treasurerAvatar} alt="photoURL" />
             <Box sx={{ ml: 2 }}>
               <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                {`${userData.first_name.charAt(0).toUpperCase() + userData.first_name.slice(1)}
-                  ${userData.middle_name.charAt(0).toUpperCase()}.
-                  ${userData.last_name.charAt(0).toUpperCase() + userData.last_name.slice(1)}`}
+                {`${userData?.first_name?.charAt(0).toUpperCase() + userData?.first_name?.slice(1)}
+                  ${userData?.middle_name?.charAt(0).toUpperCase()}.
+                  ${userData?.last_name?.charAt(0).toUpperCase() + userData?.last_name?.slice(1)}`}
               </Typography>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 {userData.role.toUpperCase()}

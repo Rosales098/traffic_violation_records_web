@@ -20,8 +20,8 @@ import ViolationsApi from '../../service/ViolationsApi';
 
 export default function CitationRecords() {
   const navigate = useNavigate();
-  const {getViolations} = ViolationsApi
-  const {getAllCitations} = CitationApi;
+  const { getViolations } = ViolationsApi;
+  const { getAllCitations } = CitationApi;
   const [citationList, setCitationList] = useState([]);
   const [violationsList, setViolationsList] = useState([]);
   const [action, setAction] = useState('create');
@@ -33,12 +33,12 @@ export default function CitationRecords() {
   } = useQuery(['get-all-violations'], () => getViolations(), {
     retry: 3, // Will retry failed requests 10 times before displaying an error
   });
-  
+
   useEffect(() => {
-    if(violationsStatus === 'success') {
-      setViolationsList(violationsData.data)
+    if (violationsStatus === 'success') {
+      setViolationsList(violationsData.data);
     }
-  }, [violationsData, violationsStatus])
+  }, [violationsData, violationsStatus]);
 
   const {
     data: citationData,
@@ -49,18 +49,18 @@ export default function CitationRecords() {
   });
 
   useEffect(() => {
-    if(citationStatus === 'success') {
+    if (citationStatus === 'success') {
       setCitationList(
         citationData.data.map((data) => ({
           action: (
-            <Box sx={{width: 100}}>
+            <Box sx={{ width: 100 }}>
               <Tooltip title="View">
                 <IconButton
-                  // onClick={async () => {
-                  //   await dispatch(setCategory(data));
-                  //   openDialog();
-                  //   setAction('update');
-                  // }}
+                // onClick={async () => {
+                //   await dispatch(setCategory(data));
+                //   openDialog();
+                //   setAction('update');
+                // }}
                 >
                   <Iconify icon="ic:baseline-remove-red-eye" />
                 </IconButton>
@@ -79,31 +79,35 @@ export default function CitationRecords() {
               </Tooltip> */}
             </Box>
           ),
-          id: (
+          enforcer: (
             <span>
-              {`#${data.id}`}
+              {`${data.enforcer.first_name.toUpperCase()} ${data.enforcer.middle_name
+                .charAt(0)
+                .toUpperCase()}. ${data.enforcer.last_name.toUpperCase()}`}
             </span>
           ),
+          id: <span>{`#${data.id}`}</span>,
           status: (
-            <span style={{fontWeight: 'bold', color: data.invoice.status === 'paid' ? 'green' : data.invoice.status === 'unpaid' ? 'red' : 'blue'}}>
+            <span
+              style={{
+                fontWeight: 'bold',
+                color: data.invoice.status === 'paid' ? 'green' : data.invoice.status === 'unpaid' ? 'red' : 'blue',
+              }}
+            >
               {`${data.invoice.status.toUpperCase()}`}
             </span>
           ),
           violations: (
             <>
-            {violationsList?.map((violations, index) => {
-              if (data?.violations?.some(user => user.id === violations.id)) {
-                return `${violations?.violation_name},\n`;
-              }
-              return '';
-            })}
+              {violationsList?.map((violations, index) => {
+                if (data?.violations?.some((user) => user.id === violations.id)) {
+                  return `${violations?.violation_name},\n`;
+                }
+                return '';
+              })}
             </>
           ),
-          totalAmount: (
-            <span style={{fontWeight: 'bold',}}>
-              {`₱${data.invoice.total_amount}`}
-            </span>
-          ),
+          totalAmount: <span style={{ fontWeight: 'bold' }}>{`₱${data.invoice.total_amount}`}</span>,
           date: data.date_of_violation,
           time: moment(data.time_of_violation).format('h:mm:ss A'),
           street: data.street.toUpperCase(),
@@ -115,22 +119,26 @@ export default function CitationRecords() {
           nationality: data.violator.nationality,
           phoneNumber: data.violator.phone_number,
           dob: moment(data.violator.dob).format('YYYY-MM-DD'),
-          licenseNumber: data.license.license_number,
-          type: data.license.license_type.toUpperCase(),
-          licenseStatus: data.license.license_status.toUpperCase(),
+          licenseNumber: data.license.license_number === '0' ? 'N/A' : data.license.license_number,
+          type: data.license.license_number === '0' ? 'N/A' : data.license.license_type.toUpperCase(),
+          licenseStatus: data.license.license_number === '0' ? 'N/A' : data.license.license_status.toUpperCase(),
           make: data.vehicle.make.toUpperCase(),
           model: data.vehicle.model.toUpperCase(),
           plate: data.vehicle.plate_number,
           color: data.vehicle.color.toUpperCase(),
-          class: data.vehicle.class || "N/A",
-          bodyMarkings: data.vehicle.body_markings || "N/A",
+          class: data.vehicle.class || 'N/A',
+          bodyMarkings: data.vehicle.body_markings || 'N/A',
           owner: data.vehicle.registered_owner.toUpperCase(),
           ownerAddress: data.vehicle.owner_address,
-          vehicleStatus: data.vehicle.vehicle_status.toUpperCase()
+          vehicleStatus:
+            data.vehicle.registered_owner.toUpperCase() === 'NONE' ||
+            data.vehicle.registered_owner.toUpperCase() === 'N/A'
+              ? 'N/A'
+              : data.vehicle.vehicle_status.toUpperCase(),
         }))
       );
     }
-  }, [citationData, citationStatus])
+  }, [citationData, citationStatus]);
 
   return (
     <Page title="Violations Records">
@@ -139,10 +147,11 @@ export default function CitationRecords() {
           tableTitle={'Violations Records'}
           buttonTitle={'Add Violator'}
           hasButton={false}
-          buttonFunction={()=> navigate('create')}
+          buttonFunction={() => navigate('create')}
           TABLE_HEAD={[
             { id: 'action', label: 'Action', align: 'center' },
-            { id: 'id', label: 'ID', align: 'center' },
+            { id: 'enforcer', label: 'Enforcer', align: 'center' },
+            { id: 'id', label: 'Ticket #', align: 'center' },
             { id: 'name', label: 'Name', align: 'center' },
             { id: 'violations', label: 'Violations', align: 'center' },
             { id: 'totalAmount', label: 'Total Amount', align: 'center' },
