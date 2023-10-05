@@ -27,6 +27,7 @@ export default function PaymentsTreasurer() {
   } = useQuery(['get-payments-user'], () => getPaymentsUser(id), {
     retry: 3, // Will retry failed requests 10 times before displaying an error
   });
+  console.log(paymentsData)
 
   useEffect(() => {
     if (paymentsStatus === 'success') {
