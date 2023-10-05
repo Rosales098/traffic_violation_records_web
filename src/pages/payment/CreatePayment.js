@@ -168,7 +168,7 @@ export default function CreatePayments() {
                 inputType="dropDown"
                 dropDownData={[
                   { id: 1, value: 'cash', label: 'Cash' },
-                  { id: 2, value: 'bank', label: 'Bank Transfer' },
+                 
                 ]}
               />
               <RHFTextField name="paymentDate" label="Payment Date" inputType="datePicker" />

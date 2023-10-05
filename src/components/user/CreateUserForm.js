@@ -96,7 +96,7 @@ export default function CreateUserForm() {
       <Stack spacing={3}>
         <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
           <RHFTextField name="firstName" label="First name" />
-          <RHFTextField name="middleName" label="Last name" />
+          <RHFTextField name="middleName" label="Middle name" />
           <RHFTextField name="lastName" label="Last name" />
         </Stack>
 
