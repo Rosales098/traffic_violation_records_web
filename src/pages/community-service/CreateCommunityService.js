@@ -86,7 +86,7 @@ export default function CreateCommunityService() {
     renderedTime: '',
     discount: '',
     timeToRender: '',
-    status: 'unsettled',
+    // status: 'unsettled',
   };
 
   const methods = useForm({
@@ -110,10 +110,9 @@ export default function CreateCommunityService() {
   }, [servicesData, setValue]);
 
   useEffect(() => {
-
-    if(_.isEmpty(servicesData)) {
+    if(!_.isEmpty(servicesData)) {
       const data = servicesData?.data?.filter((x) => x.id == serviceId);
-      if(_.isEmpty(data)) { 
+      if(_.isEmpty(data) || undefined) { 
         setValue('serviceTypeId', data[0]?.id);
         setValue('discount', `0%`);
         setValue('timeToRender', `0 hours`);
@@ -185,7 +184,7 @@ export default function CreateCommunityService() {
             status:
               parseInt(serviceData[0]?.time_to_render, 10) == parseInt(data.renderedTime, 10)
                 ? 'settled'
-                : data.status,
+                : 'unsettled',
           };
           await Create(payload);
         }
@@ -200,11 +199,15 @@ export default function CreateCommunityService() {
         status:
           parseInt(serviceData[0]?.time_to_render, 10) == parseInt(data.renderedTime, 10)
             ? 'settled'
-            : data.status,
+            : 'unsettled',
       };
       await Create(payload);
     }
   };
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <Page title="Community Service Types">
@@ -246,7 +249,7 @@ export default function CreateCommunityService() {
             </Stack>
             <Stack direction={{ xs: 'column' }} spacing={2} sx={{ marginTop: 2 }}>
               <RHFTextField name="renderedTime" label="Rendered Time(hours)" />
-              <RHFTextField
+              {/* <RHFTextField
                 name="status"
                 label="Status"
                 inputType="dropDown"
@@ -254,7 +257,8 @@ export default function CreateCommunityService() {
                   { id: 1, value: 'unsettled', label: 'Unsettled' },
                   { id: 2, value: 'settled', label: 'Settled' },
                 ]}
-              />
+                disabled
+              /> */}
             </Stack>
             <Stack direction="row" spacing={4} sx={{ marginTop: 10 }}>
               <Box width="100%">
