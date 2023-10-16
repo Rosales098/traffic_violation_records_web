@@ -41,8 +41,8 @@ export default function CreateServiceTypes() {
 
   const defaultValues = {
     serviceName: '',
-    discount: '',
-    timeToRender: ''
+    discount: '500',
+    timeToRender: '8'
   };
 
   const methods = useForm({
@@ -97,8 +97,8 @@ export default function CreateServiceTypes() {
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Stack direction={{ xs: 'column' }} spacing={2}>
                 <RHFTextField name="serviceName" label="Service Name" />
-                <RHFTextField name="discount" label="Discount(%)" />
-                <RHFTextField name="timeToRender" label="Time to Render(hours)" />
+                <RHFTextField name="discount" label="Discount(₱)" disabled/>
+                <RHFTextField name="timeToRender" label="Time to Render(hours)" disabled/>
               </Stack>
               <Stack direction="row" spacing={4} sx={{marginTop: 10}}>
                 <Box width="100%">

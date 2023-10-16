@@ -52,6 +52,16 @@ const navConfig = [
       //   icon: getIcon('carbon:category'),
       // },
       {
+        title: 'Vehicle Make List',
+        path: 'settings/vehicle-make',
+        icon: getIcon('mdi:warning-octagon'),
+      },
+      {
+        title: 'Vehicle Class List',
+        path: 'settings/vehicle-class',
+        icon: getIcon('mdi:warning-octagon'),
+      },
+      {
         title: 'Violations List',
         path: 'settings/violations-list',
         icon: getIcon('mdi:warning-octagon'),

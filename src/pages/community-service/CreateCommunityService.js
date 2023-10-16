@@ -114,12 +114,12 @@ export default function CreateCommunityService() {
       const data = servicesData?.data?.filter((x) => x.id == serviceId);
       if(_.isEmpty(data) || undefined) { 
         setValue('serviceTypeId', data[0]?.id);
-        setValue('discount', `0%`);
+        setValue('discount', `0`);
         setValue('timeToRender', `0 hours`);
         return
       }
       setValue('serviceTypeId', data[0]?.id);
-      setValue('discount', `${data[0]?.discount}%`);
+      setValue('discount', `₱${data[0]?.discount}`);
       setValue('timeToRender', `${data[0]?.time_to_render} hours`);
     }
 
