@@ -78,7 +78,7 @@ export default function Invoice() {
             </>
           ),
           subTotal: `₱${data.sub_total}`,
-          discount: `${data.discount}%`,
+          discount: `₱${data.discount}`,
           totalAmount: `₱${data.total_amount}`,
           violator: `${data?.citation?.violator?.last_name}, ${data?.citation?.violator?.first_name} ${data?.citation?.violator?.middle_name}`,
           status: (

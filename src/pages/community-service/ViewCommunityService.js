@@ -94,7 +94,7 @@ export default function ViewCommunityService() {
     serviceTypeId: '',
     renderedTime: '',
     timeToRender: '',
-    status: 'unsettled',
+    // status: 'unsettled',
   };
 
   const methods = useForm({
@@ -186,7 +186,7 @@ export default function ViewCommunityService() {
             status:
               parseInt(serviceData[0]?.time_to_render, 10) == parseInt(data.renderedTime, 10)
                 ? 'settled'
-                : data.status,
+                : 'unsettled',
           };
           await Update(payload);
         }
@@ -201,7 +201,7 @@ export default function ViewCommunityService() {
         status:
           parseInt(servicesData?.data[0]?.time_to_render, 10) == parseInt(data.renderedTime, 10)
             ? 'settled'
-            : data.status,
+            : 'unsettled',
       };
       await Update(payload);
     }
@@ -248,7 +248,7 @@ export default function ViewCommunityService() {
             </Stack>
             <Stack direction={{ xs: 'column' }} spacing={2} sx={{ marginTop: 2 }}>
               <RHFTextField name="renderedTime" label="Rendered Time(hours)" />
-              <RHFTextField
+              {/* <RHFTextField
                 name="status"
                 label="Status"
                 inputType="dropDown"
@@ -256,7 +256,7 @@ export default function ViewCommunityService() {
                   { id: 1, value: 'unsettled', label: 'Unsettled' },
                   { id: 2, value: 'settled', label: 'Settled' },
                 ]}
-              />
+              /> */}
             </Stack>
             <Stack direction="row" spacing={4} sx={{ marginTop: 10 }}>
               <Box width="100%">

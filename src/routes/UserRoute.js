@@ -25,6 +25,8 @@ import TreasurerReport from '../pages/reports/treasurer/TreasurerReport';
 import AdminReports from '../pages/reports/admin/AdminReports';
 import ForgotPassword from '../pages/forgot-password/ForgotPassword';
 import ResetPassword from '../pages/forgot-password/ResetPassword';
+import VehicleMake from '../pages/vehicle-make/VehicleMake';
+import VehicleClass from '../pages/vehicle-class/VehicleClass';
 // ----------------------------------------------------------------------
 
 export default function UserRoute() {
@@ -49,6 +51,8 @@ export default function UserRoute() {
           <Route path="user/create" element={<CreateUser />} />
           <Route path="user/view" element={<ViewUser />} />
           <Route path="settings/violation-categories" element={<ViolationCategories />} />
+          <Route path="settings/vehicle-make" element={<VehicleMake />} />
+          <Route path="settings/vehicle-class" element={<VehicleClass />} />
           <Route path="settings/violations-list" element={<ViolationsPage />} />
           <Route path="settings/community-services-types" element={<CommunityServiceTypes />} />
           <Route path="settings/community-services-types/create" element={<CreateServiceTypes />} />

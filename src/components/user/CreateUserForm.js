@@ -28,7 +28,6 @@ const genderData = [
 
 const positionData = [
   {value: 'enforcer', label: 'Enforcer'},
-  {value: 'admin', label: 'Admin'},
   {value: 'treasurer', label: 'Treasurer'},
 ]
 export default function CreateUserForm() {
