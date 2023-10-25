@@ -104,7 +104,7 @@ export default function CreateCommunityService() {
     if (servicesData?.data?.length > 0) {
       setServiceId(servicesData?.data[0]?.id);
       setValue('serviceTypeId', servicesData?.data[0]?.id);
-      setValue('discount', `${servicesData?.data[0]?.discount}%`);
+      setValue('discount', `₱${servicesData?.data[0]?.discount}`);
       setValue('timeToRender', `${servicesData?.data[0]?.time_to_render} hours`);
     }
   }, [servicesData, setValue]);
