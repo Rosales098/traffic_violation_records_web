@@ -60,7 +60,7 @@ export default function Invoice() {
       setViolationsList(violationsData.data);
     }
   }, [violationsData, violationsStatus]);
-  console.log(invoiceData);
+  console.log('test', invoiceData);
   useEffect(() => {
     if (invoiceStatus === 'success') {
       setInvoiceList(
@@ -79,7 +79,7 @@ export default function Invoice() {
             </>
           ),
           subTotal: `₱${data.sub_total}`,
-          discount: `₱500`,
+          discount: `₱${data.discount}`,
           totalAmount: `₱${data.total_amount}`,
           violator: `${capitalize(data?.citation?.violator?.last_name)}, ${capitalize(
             data?.citation?.violator?.first_name
@@ -146,7 +146,7 @@ export default function Invoice() {
         fullWidth
         maxWidth={'md'}
       >
-        <InvoiceDetails invoiceDetailsData={invoiceDetailsData} />
+        <InvoiceDetails invoiceData={invoiceDetailsData} />
       </Dialog>
     </Page>
   );

@@ -82,7 +82,7 @@ export default function CreatePayments() {
         `${invoiceData?.citation?.violator?.last_name}, ${invoiceData?.citation?.violator?.first_name} ${invoiceData?.citation?.violator?.middle_name}`
       );
       setValue('subTotal', `₱${invoiceData.sub_total}`);
-      setValue('discount', `₱500`);
+      setValue('discount', `₱${invoiceData.discount}`);
       setValue('totalAmount', `₱${invoiceData.total_amount}`);
     }
   }, [invoiceData, setValue]);

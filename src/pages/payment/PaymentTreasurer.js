@@ -41,7 +41,7 @@ export default function PaymentsTreasurer() {
           paymentDate: data.payment_date,
           paymentMethod: data.payment_method.toUpperCase(),
           subTotal: `₱${data.invoice.sub_total}`,
-          discount: `₱500`,
+          discount: `₱${data.invoice.discount}`,
           totalAmount: `₱${data.invoice.total_amount}`,
           totalPaid: `₱${parseInt(data.total_paid, 10).toFixed(2)}`,
           remarks: data.remarks,

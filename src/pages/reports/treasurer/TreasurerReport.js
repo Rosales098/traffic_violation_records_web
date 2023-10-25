@@ -295,7 +295,7 @@ const TreasurerReport = () => {
                         </Typography>
                       ),
                       subTotal: `₱${data?.invoice?.sub_total}`,
-                      discount: `₱500`,
+                      discount: `₱${data.invoice.discount}`,
                       totalAmount: (
                         <Typography
                           sx={{ cursor: 'pointer' }}
