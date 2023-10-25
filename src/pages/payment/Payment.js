@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react'; 
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 // material
-import { Container, Tooltip, IconButton } from '@mui/material';
+import { Container, Tooltip, IconButton, capitalize } from '@mui/material';
 // components
 import Iconify from '../../components/Iconify';
 import Page from '../../components/Page';
@@ -15,7 +15,7 @@ import paymentApi from '../../service/paymentApi';
 // ----------------------------------------------------------------------
 
 export default function Payments() {
-  const {getPayments} = paymentApi
+  const { getPayments } = paymentApi;
   const navigate = useNavigate();
   const [paymentList, setPaymentList] = useState([]);
 
@@ -29,30 +29,33 @@ export default function Payments() {
 
   useEffect(() => {
     if (paymentsStatus === 'success') {
-        setPaymentList(
+      setPaymentList(
         paymentsData.data.map((data) => ({
+          tobeSearch: `${data?.invoice?.citation?.violator?.last_name} ${data?.invoice?.citation?.violator?.first_name} ${data?.invoice?.citation?.violator?.middle_name}`,
           id: data.id,
-          violator: `${data?.invoice?.citation?.violator?.last_name}, ${data?.invoice?.citation?.violator?.first_name} ${data?.invoice?.citation?.violator?.middle_name}`,
+          violator: `${capitalize(data?.invoice?.citation?.violator?.last_name)}, ${capitalize(
+            data?.invoice?.citation?.violator?.first_name
+          )} ${capitalize(data?.invoice?.citation?.violator?.middle_name)}`,
           paymentDate: data.payment_date,
           paymentMethod: data.payment_method.toUpperCase(),
           subTotal: `₱${data.invoice.sub_total}`,
-          discount: `${data.invoice.discount}%`,
+          discount: `₱${data.invoice.discount}`,
           totalAmount: `₱${data.invoice.total_amount}`,
           totalPaid: `₱${parseInt(data.total_paid, 10).toFixed(2)}`,
           remarks: data.remarks,
-        //   action: data.status === 'unsettled' ? (
-        //     <>
-        //       <Tooltip title="Update">
-        //         <IconButton
-        //           onClick={async () => {
-        //             navigate(`view/${data.id}`)
-        //           }}
-        //         >
-        //           <Iconify icon="material-symbols:edit" />
-        //         </IconButton>
-        //       </Tooltip>
-        //     </>
-        //   ) : null,
+          //   action: data.status === 'unsettled' ? (
+          //     <>
+          //       <Tooltip title="Update">
+          //         <IconButton
+          //           onClick={async () => {
+          //             navigate(`view/${data.id}`)
+          //           }}
+          //         >
+          //           <Iconify icon="material-symbols:edit" />
+          //         </IconButton>
+          //       </Tooltip>
+          //     </>
+          //   ) : null,
         }))
       );
     }
@@ -66,19 +69,18 @@ export default function Payments() {
           // buttonTitle={'New Payment'}
           // buttonFunction={() => {navigate('create')}}
           hasButton={false}
-          TABLE_HEAD={
-            [
-              { id: 'violator', label: 'Violator Full Name', alignRight: false },
-              { id: 'paymentDate', label: 'Payment Date', alignRight: false },
-              { id: 'paymentMethod', label: 'Payment Method', alignRight: false },
-              { id: 'subTotal', label: 'Sub Total', alignRight: false },
-              { id: 'discount', label: 'Discount', alignRight: false },
-              { id: 'totalAmount', label: 'Total Amount', alignRight: false },
-              { id: 'totalPaid', label: 'Total Paid', alignRight: false },
-              { id: 'remarks', label: 'Remarks', alignRight: false },
+          TABLE_HEAD={[
+            { id: 'violator', label: 'Violator Full Name', alignRight: false },
+            { id: 'paymentDate', label: 'Payment Date', alignRight: false },
+            { id: 'paymentMethod', label: 'Payment Method', alignRight: false },
+            { id: 'subTotal', label: 'Sub Total', alignRight: false },
+            { id: 'discount', label: 'Discount', alignRight: false },
+            { id: 'totalAmount', label: 'Total Amount', alignRight: false },
+            { id: 'totalPaid', label: 'Total Paid', alignRight: false },
+            { id: 'remarks', label: 'Remarks', alignRight: false },
             //   { id: 'action', label: 'Action', alignRight: false },
-            ]
-          }
+          ]}
+          searchTitle="Search Full Name..."
           TABLE_DATA={paymentList}
         />
       </Container>

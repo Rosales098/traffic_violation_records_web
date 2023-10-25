@@ -82,16 +82,16 @@ export default function CreatePayments() {
         `${invoiceData?.citation?.violator?.last_name}, ${invoiceData?.citation?.violator?.first_name} ${invoiceData?.citation?.violator?.middle_name}`
       );
       setValue('subTotal', `₱${invoiceData.sub_total}`);
-      setValue('discount', `${invoiceData.discount}%`);
+      setValue('discount', `₱${invoiceData.discount}`);
       setValue('totalAmount', `₱${invoiceData.total_amount}`);
     }
   }, [invoiceData, setValue]);
 
   const { mutate: Create, isLoading: isLoad } = useMutation((payload) => createPayment(payload), {
     onSuccess: (data) => {
+      queryClient.invalidateQueries(['get-payments']);
       queryClient.invalidateQueries(['get-all-service-types']);
       queryClient.invalidateQueries(['get-payments-user']);
-      queryClient.invalidateQueries(['get-payments']);
       toast.success('Created successfully');
       setIsLoading(true);
       navigate(-1);

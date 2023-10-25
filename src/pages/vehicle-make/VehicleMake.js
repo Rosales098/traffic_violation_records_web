@@ -66,6 +66,7 @@ export default function VehicleMake() {
     if (categoryStatus === 'success') {
       setCategoryList(
         categoryData?.data?.map((data) => ({
+          tobeSearch: data.make,
           id: (
             <span>
               {`${data?.id}`}
@@ -119,6 +120,7 @@ export default function VehicleMake() {
             { id: 'make', label: 'Make', align: 'center' },
             { id: 'action', label: 'Action', align: 'center' },
           ]}
+          searchTitle='Search Make...'
           TABLE_DATA={categoryList}
         />
       </Container>

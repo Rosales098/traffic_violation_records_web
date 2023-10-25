@@ -66,7 +66,7 @@ export default function CitationList({ setCitationData, handleClose }) {
               </Tooltip>
             </Box>
           ),
-          id: <span>{`#${data.id}`}</span>,
+          id: <span>{`${data.tct}`}</span>,
           status: (
             <span
               style={{
@@ -124,7 +124,7 @@ export default function CitationList({ setCitationData, handleClose }) {
           hasButton={false}
           TABLE_HEAD={[
             { id: 'action', label: 'Action', align: 'center' },
-            { id: 'id', label: 'ID', align: 'center' },
+            { id: 'id', label: 'TCT', align: 'center' },
             { id: 'name', label: 'Name', align: 'center' },
             { id: 'violations', label: 'Violations', align: 'center' },
             { id: 'totalAmount', label: 'Total Amount', align: 'center' },
@@ -152,6 +152,7 @@ export default function CitationList({ setCitationData, handleClose }) {
             { id: 'ownerAddress', label: 'Owner Address', align: 'center' },
             { id: 'vehicleStatus', label: 'Vehicle Status', align: 'center' },
           ]}
+          search
           TABLE_DATA={citationList}
         />
       </Container>

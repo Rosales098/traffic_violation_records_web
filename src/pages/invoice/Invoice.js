@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 // material
-import { Container, Typography, Stack, Button, Tooltip, IconButton, Dialog } from '@mui/material';
+import { Container, Typography, Stack, Button, Tooltip, IconButton, Dialog, capitalize } from '@mui/material';
 
 // components
 import Iconify from '../../components/Iconify';
@@ -28,7 +28,7 @@ export default function Invoice() {
   const [open, setOpen] = useState(false);
   const [invoiceList, setInvoiceList] = useState([]);
   const [violationsList, setViolationsList] = useState([]);
-  
+
   const [invoiceDetailsData, setInvoiceDetailsData] = useState({});
 
   const openDialog = () => {
@@ -60,12 +60,13 @@ export default function Invoice() {
       setViolationsList(violationsData.data);
     }
   }, [violationsData, violationsStatus]);
-
+  console.log('test', invoiceData);
   useEffect(() => {
     if (invoiceStatus === 'success') {
       setInvoiceList(
         invoiceData?.data?.map((data) => ({
-          id: <span>{`#${data.id}`}</span>,
+          tobeSearch: `${data?.citation?.violator?.last_name} ${data?.citation?.violator?.first_name} ${data?.citation?.violator?.middle_name}`,
+          id: <span>{`#${data.citation.tct}`}</span>,
           date: data.date,
           violations: (
             <>
@@ -80,7 +81,9 @@ export default function Invoice() {
           subTotal: `₱${data.sub_total}`,
           discount: `₱${data.discount}`,
           totalAmount: `₱${data.total_amount}`,
-          violator: `${data?.citation?.violator?.last_name}, ${data?.citation?.violator?.first_name} ${data?.citation?.violator?.middle_name}`,
+          violator: `${capitalize(data?.citation?.violator?.last_name)}, ${capitalize(
+            data?.citation?.violator?.first_name
+          )} ${capitalize(data?.citation?.violator?.middle_name)}`,
           status: (
             <span
               style={{
@@ -96,7 +99,7 @@ export default function Invoice() {
               <Tooltip title="View">
                 <IconButton
                   onClick={async () => {
-                    setInvoiceDetailsData(data)
+                    setInvoiceDetailsData(data);
                     openDialog();
                   }}
                 >
@@ -120,16 +123,17 @@ export default function Invoice() {
             openDialog();
           }}
           TABLE_HEAD={[
-            { id: 'id', label: 'ID', align: 'center' },
+            { id: 'id', label: 'Ticket #', align: 'center' },
             { id: 'date', label: 'Date', align: 'center' },
+            { id: 'violator', label: 'Violator', align: 'center' },
             { id: 'violations', label: 'Violations', align: 'center' },
             { id: 'subTotal', label: 'Sub Amount', align: 'center' },
             { id: 'discount', label: 'Discount', align: 'center' },
             { id: 'totalAmount', label: 'Total Amount', align: 'center' },
-            { id: 'violator', label: 'Violator', align: 'center' },
             { id: 'status', label: 'Status', align: 'center' },
             { id: 'action', label: 'Action', align: 'center' },
           ]}
+          searchTitle="Search Full Name..."
           TABLE_DATA={invoiceList}
         />
       </Container>
@@ -142,7 +146,7 @@ export default function Invoice() {
         fullWidth
         maxWidth={'md'}
       >
-        <InvoiceDetails invoiceDetailsData={invoiceDetailsData}/>
+        <InvoiceDetails invoiceData={invoiceDetailsData} />
       </Dialog>
     </Page>
   );

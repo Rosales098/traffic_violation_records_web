@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from 'react-query';
 // material
-import { Container, Tooltip, IconButton } from '@mui/material';
+import { Container, Tooltip, IconButton, capitalize } from '@mui/material';
 // components
 import Iconify from '../../components/Iconify';
 import Page from '../../components/Page';
@@ -31,7 +31,8 @@ export default function CommunityService() {
       setCommunityServiceList(
         communityServiceData.data.map((data) => ({
           id: data.id,
-          name: `${data?.citation?.violator?.last_name}, ${data?.citation?.violator?.first_name} ${data?.citation?.violator?.middle_name}`,
+          name: `${capitalize(data?.citation?.violator?.last_name)}, ${capitalize(data?.citation?.violator?.first_name)} ${capitalize(data?.citation?.violator?.middle_name)}`,
+          tobeSearch: `${data?.citation?.violator?.last_name} ${data?.citation?.violator?.first_name} ${data?.citation?.violator?.middle_name}`,
           service: data.service.service_name,
           timeToRender: data.service.time_to_render,
           renderedTime: data.rendered_time,
@@ -68,7 +69,7 @@ export default function CommunityService() {
           buttonFunction={() => {navigate('create')}}
           TABLE_HEAD={
             [
-              { id: 'id', label: 'ID', alignRight: false },
+              // { id: 'id', label: 'ID', alignRight: false },
               { id: 'name', label: 'Full Name', alignRight: false },
               { id: 'service', label: 'Community Service Type', alignRight: false },
               { id: 'timeToRender', label: 'Time to Render', alignRight: false },
@@ -78,6 +79,7 @@ export default function CommunityService() {
               { id: 'action', label: 'Action', alignRight: false },
             ]
           }
+          searchTitle="Search Full Name..."
           TABLE_DATA={communityServiceList}
         />
       </Container>

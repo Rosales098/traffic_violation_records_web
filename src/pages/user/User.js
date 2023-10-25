@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 // material
-import { Container, Chip, Tooltip, IconButton, Stack, Button, Typography } from '@mui/material';
+import { Container, Chip, Tooltip, IconButton, Stack, Button, Typography, capitalize } from '@mui/material';
 import Iconify from '../../components/Iconify';
 // components
 import Page from '../../components/Page';
@@ -48,10 +48,12 @@ export default function User() {
     if (userStatus === 'success') {
       setUserList(
         userData.data.map((data) => ({
+          tobeSearch: `${data?.last_name}`,
           id: data.id,
-          firstName: data.first_name,
-          middleName: data.last_name,
-          lastName: data.last_name,
+          name: data.last_name,
+          firstName: capitalize(data.first_name),
+          middleName: capitalize(data.middle_name),
+          lastName: capitalize(data.last_name),
           dob: data.dob,
           gender: data.gender,
           phoneNumber: data.phone_number,
@@ -140,6 +142,7 @@ export default function User() {
             { id: 'status', label: 'Status', align: 'center' },
             { id: 'action', label: 'Action', align: 'center' },
           ]}
+          searchTitle='Search Last Name...'
           TABLE_DATA={userList}
         />
       </Container>

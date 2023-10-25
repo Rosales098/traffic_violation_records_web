@@ -17,58 +17,48 @@ import {
   Paper,
   Typography,
   Grid,
+  capitalize,
 } from '@mui/material';
 // components
-import Iconify from '../../components/Iconify';
 import Page from '../../components/Page';
-import AppTable from '../../components/table/AppTable';
-import DialogModal from '../../components/dialog-modal/DialogModal';
-import ViolationCategoriesApi from '../../service/ViolationCategoriesApi';
-import communityServiceTypesApi from '../../service/communityServiceTypesApi';
-import { setServiceType } from '../../store/ServiceTypeSlice';
 
 // ----------------------------------------------------------------------
 
-export default function InvoiceDetails({ invoiceDetailsData }) {
-  const { getAllCommunityServicesTypes } = communityServiceTypesApi;
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const [open, setOpen] = useState(false);
-  const [categoryList, setCategoryList] = useState([]);
-  const [action, setAction] = useState('create');
-  const { category } = useSelector((store) => store.category);
-
-  console.log(invoiceDetailsData);
+export default function InvoiceDetails({ invoiceData }) {
+  console.log(parseInt(invoiceData?.discount, 10).toFixed(2));
   return (
     <Page title="Violation-Categories">
       <Container sx={{ padding: 5 }}>
         <Typography sx={{ fontWeight: 'bold', fontSize: 26 }}>RTMO</Typography>
-        <Typography>Traffice Violation Records</Typography>
+        <Typography>Traffic Violation Records</Typography>
         <Grid container spacing={3} sx={{ marginTop: 2 }}>
           <Grid item xs={12} sm={6} md={6}>
             <Typography>Bill To:</Typography>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
               <Typography>Name:</Typography>
-              <Typography sx={{ fontWeight: 'bold' }}>{`${
-                invoiceDetailsData.citation.violator.first_name
-              } ${invoiceDetailsData.citation.violator.middle_name.charAt()}. ${
-                invoiceDetailsData.citation.violator.last_name
-              }`}</Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>{`${capitalize(
+                invoiceData?.citation?.violator?.first_name || ''
+              )} ${capitalize(invoiceData?.citation?.violator?.middle_name?.charAt() || '')}. ${capitalize(
+                invoiceData?.citation?.violator?.last_name || ''
+              )}`}</Typography>
             </Stack>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
               <Typography>Address:</Typography>
-              <Typography sx={{ fontWeight: 'bold' }}>{invoiceDetailsData.citation.violator.address}</Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>{`${capitalize(
+                invoiceData?.citation?.violator?.street
+              )}, ${capitalize(invoiceData?.citation?.violator?.barangay)}, ${capitalize(
+                invoiceData?.citation?.violator?.municipality
+              )}, ${invoiceData?.citation?.violator?.zipcode}`}</Typography>
             </Stack>
           </Grid>
           <Grid item xs={12} sm={6} md={6}>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
               <Typography>Invoice #:</Typography>
-              <Typography sx={{ fontWeight: 'bold' }}>{invoiceDetailsData.id}</Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>{invoiceData?.id}</Typography>
             </Stack>
             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
               <Typography>Invoice Date:</Typography>
-              <Typography sx={{ fontWeight: 'bold' }}>{invoiceDetailsData.date}</Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>{invoiceData?.date}</Typography>
             </Stack>
           </Grid>
         </Grid>
@@ -83,20 +73,17 @@ export default function InvoiceDetails({ invoiceDetailsData }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {invoiceDetailsData?.violations?.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              {/* <TableCell component="th" scope="row">
+              {invoiceData?.violations?.map((row) => (
+                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  {/* <TableCell component="th" scope="row">
                 {row.name}
               </TableCell> */}
-              <TableCell align="left">{row.category?.category_name.toUpperCase()}</TableCell>
-              <TableCell align="left">{row.violation_name.toUpperCase()}</TableCell>
-              <TableCell align="left">{row.description}</TableCell>
-              <TableCell align="left">{`₱${parseInt(row.penalty, 10)?.toFixed(2)}`}</TableCell>
-            </TableRow>
-          ))}
+                  <TableCell align="left">{row.category?.category_name.toUpperCase()}</TableCell>
+                  <TableCell align="left">{row.violation_name.toUpperCase()}</TableCell>
+                  <TableCell align="left">{row.description}</TableCell>
+                  <TableCell align="left">{`₱${parseInt(row.penalty, 10)?.toFixed(2)}`}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -111,7 +98,7 @@ export default function InvoiceDetails({ invoiceDetailsData }) {
                   <Typography>Sub Total:</Typography>
                 </Grid>
                 <Grid item xs={6} sm={6} md={6}>
-                  <Typography sx={{ fontWeight: 'bold' }}>{`₱${invoiceDetailsData.sub_total}`}</Typography>
+                  <Typography sx={{ fontWeight: 'bold' }}>{`₱${invoiceData.sub_total}`}</Typography>
                 </Grid>
               </Stack>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -119,7 +106,7 @@ export default function InvoiceDetails({ invoiceDetailsData }) {
                   <Typography>Discount:</Typography>
                 </Grid>
                 <Grid item xs={6} sm={6} md={6}>
-                  <Typography sx={{ fontWeight: 'bold' }}>{`${invoiceDetailsData.discount}%`}</Typography>
+                  <Typography sx={{ fontWeight: 'bold' }}>{`₱${parseInt(invoiceData?.discount, 10).toFixed(2)}`}</Typography>
                 </Grid>
               </Stack>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
@@ -127,7 +114,7 @@ export default function InvoiceDetails({ invoiceDetailsData }) {
                   <Typography>Total:</Typography>
                 </Grid>
                 <Grid item xs={6} sm={6} md={6}>
-                  <Typography sx={{ fontWeight: 'bold' }}>{`₱${invoiceDetailsData.total_amount}`}</Typography>
+                  <Typography sx={{ fontWeight: 'bold' }}>{`₱${invoiceData.total_amount}`}</Typography>
                 </Grid>
               </Stack>
             </Grid>
