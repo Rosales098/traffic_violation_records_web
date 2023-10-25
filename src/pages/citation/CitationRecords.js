@@ -86,7 +86,8 @@ export default function CitationRecords() {
                 .toUpperCase()}. ${data.enforcer.last_name.toUpperCase()}`}
             </span>
           ),
-          id: <span>{`#${data.id}`}</span>,
+          id: <span>{`${data.tct}`}</span>,
+          tobeSearch: data.tct,
           status: (
             <span
               style={{
@@ -179,6 +180,7 @@ export default function CitationRecords() {
             // { id: 'vehicleStatus', label: 'Vehicle Status', align: 'center' },
             { id: 'status', label: 'Payment Status', align: 'center' },
           ]}
+          searchTitle="Search Ticket #..."
           TABLE_DATA={citationList}
         />
       </Container>

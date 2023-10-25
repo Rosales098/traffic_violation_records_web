@@ -40,6 +40,7 @@ export default function CommunityServiceTypes() {
     if (serviceTypesStatus === 'success') {
       setCategoryList(
         serviceTypesData?.data.map((data) => ({
+          tobeSearch: data.service_name,
           id: (
             <span>
               {`#${data.id}`}
@@ -96,6 +97,7 @@ export default function CommunityServiceTypes() {
             { id: 'action', label: 'Action', align: 'center' },
           ]}
           TABLE_DATA={categoryList}
+          searchTitle='Search Service...'
         />
       </Container>
     </Page>

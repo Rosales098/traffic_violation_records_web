@@ -69,6 +69,7 @@ export default function ViolationsPage() {
     if (violationStatus === 'success') {
       setViolationList(
         violationData.data.map((data) => ({
+          tobeSearch: data.violation_name,
           id: <span>{`#${data.id}`}</span>,
           categoryName: data.category.category_name,
           violation: data.violation_name,
@@ -128,6 +129,7 @@ export default function ViolationsPage() {
             { id: 'description', label: 'Description', align: 'left' },
             { id: 'action', label: 'Action', align: 'center' },
           ]}
+          searchTitle='Search Violation...'
           TABLE_DATA={violationList}
         />
       </Container>

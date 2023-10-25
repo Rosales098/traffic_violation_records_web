@@ -281,6 +281,7 @@ const TreasurerReport = () => {
                     { id: 'totalAmount', label: 'Total Amount' },
                     { id: 'totalPaid', label: 'Total Paid' },
                   ]}
+                  showSearch={false}
                   TABLE_DATA={
                     reportData.map((data) => ({
                       id: data.id,
@@ -294,7 +295,7 @@ const TreasurerReport = () => {
                         </Typography>
                       ),
                       subTotal: `₱${data?.invoice?.sub_total}`,
-                      discount: `${data?.invoice?.discount}%`,
+                      discount: `₱500`,
                       totalAmount: (
                         <Typography
                           sx={{ cursor: 'pointer' }}

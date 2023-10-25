@@ -50,13 +50,23 @@ function applySortFilter(array, comparator, query) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
+
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user?.tobeSearch?.toLowerCase().indexOf(query?.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function AppTable({ TABLE_HEAD, TABLE_DATA, tableTitle, buttonTitle, buttonFunction, hasButton = true }) {
+export default function AppTable({
+  TABLE_HEAD,
+  TABLE_DATA,
+  tableTitle,
+  buttonTitle,
+  buttonFunction,
+  hasButton = true,
+  searchTitle = '',
+  showSearch = true,
+}) {
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -124,16 +134,21 @@ export default function AppTable({ TABLE_HEAD, TABLE_DATA, tableTitle, buttonTit
         <Typography variant="h4" gutterBottom>
           {tableTitle}
         </Typography>
-        {hasButton ?
-        <Button variant="contained" to="#" startIcon={<Iconify icon="eva:plus-fill" />} onClick={buttonFunction}>
-          {buttonTitle}
-        </Button>
-        : null
-        }
+        {hasButton ? (
+          <Button variant="contained" to="#" startIcon={<Iconify icon="eva:plus-fill" />} onClick={buttonFunction}>
+            {buttonTitle}
+          </Button>
+        ) : null}
       </Stack>
 
       <Card>
-        <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
+        {showSearch ? (
+          <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} searchTitle={searchTitle} />
+        ) : (
+          <>
+            <div style={{height: 20, display: 'none'}}>test</div>
+          </>
+        )}
 
         <Scrollbar>
           <TableContainer sx={{ minWidth: 800 }}>

@@ -66,6 +66,7 @@ export default function VehicleClass() {
     if (categoryStatus === 'success') {
       setCategoryList(
         categoryData?.data?.map((data) => ({
+          tobeSearch: data.class,
           id: (
             <span>
               {`${data?.id}`}
@@ -120,6 +121,7 @@ export default function VehicleClass() {
             { id: 'action', label: 'Action', align: 'center' },
           ]}
           TABLE_DATA={categoryList}
+          searchTitle='Search Class...'
         />
       </Container>
 
