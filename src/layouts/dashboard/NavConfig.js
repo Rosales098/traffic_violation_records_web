@@ -11,10 +11,27 @@ const navConfig = [
     path: '/dashboard',
     icon: getIcon('eva:pie-chart-2-fill'),
   },
+  // {
+  //   title: 'Violations Records',
+  //   path: '/violations-records',
+  //   icon: getIcon('mdi:account-warning'),
+  // },
   {
     title: 'Violations Records',
     path: '/violations-records',
     icon: getIcon('mdi:account-warning'),
+    children: [
+      {
+        title: 'Paid Violations',
+        path: 'violations-records/paid',
+        // icon: getIcon('mdi:warning-octagon'),
+      },
+      {
+        title: 'Unpaid Violations',
+        path: 'violations-records/unpaid',
+        // icon: getIcon('mdi:warning-octagon'),
+      },
+    ]
   },
   {
     title: 'Community Services',

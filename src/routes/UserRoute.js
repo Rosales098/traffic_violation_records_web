@@ -3,6 +3,8 @@ import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import ViolationCategories from '../pages/violation-categories/ViolationCategories';
 import ViolationsPage from '../pages/violations/Violations';
 import CitationRecords from '../pages/citation/CitationRecords';
+import PaidCitationRecords from '../pages/citation/PaidCitationRecords';
+import UnpaidCitationRecords from '../pages/citation/UnpaidCitationRecords';
 import CommunityService from '../pages/community-service/CommunityService';
 import CreateCommunityService from '../pages/community-service/CreateCommunityService';
 import ViewCommunityService from '../pages/community-service/ViewCommunityService';
@@ -27,6 +29,7 @@ import ForgotPassword from '../pages/forgot-password/ForgotPassword';
 import ResetPassword from '../pages/forgot-password/ResetPassword';
 import VehicleMake from '../pages/vehicle-make/VehicleMake';
 import VehicleClass from '../pages/vehicle-class/VehicleClass';
+
 // ----------------------------------------------------------------------
 
 export default function UserRoute() {
@@ -41,6 +44,8 @@ export default function UserRoute() {
           <Route path="/" element={<DashboardApp />} />
           <Route path="/dashboard" element={<DashboardApp />} />
           <Route path="violations-records" element={<CitationRecords />} />
+          <Route path="violations-records/paid" element={<PaidCitationRecords />} />
+          <Route path="violations-records/unpaid" element={<UnpaidCitationRecords />} />
           <Route path="invoices" element={<Invoice />} />
           <Route path="payments" element={<Payments />} />
           <Route path="payments/create" element={<CreatePayments />} />
