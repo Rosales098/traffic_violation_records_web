@@ -99,6 +99,23 @@ export default function UnpaidCitationRecords() {
               {`${data.invoice.status.toUpperCase()}`}
             </span>
           ),
+          settled: (
+            <>
+              <span
+                style={{
+                  fontWeight: 'bold',
+                  color: 'red',
+                }}
+              >
+                {`${data?.invoice?.expired?.toUpperCase()}`}
+                <Tooltip title={data?.invoice?.expired === 'yes' ? "Expired, unsettled within 72 hours" : "Must settled within 72 hours"}>
+                  <IconButton>
+                    <Iconify icon={'mdi:information-outline'} width={25} height={25} color={'red'} />
+                  </IconButton>
+                </Tooltip>
+              </span>
+            </>
+          ),
           violations: (
             <>
               {violationsList?.map((violations, index) => {
@@ -180,6 +197,7 @@ export default function UnpaidCitationRecords() {
             // { id: 'ownerAddress', label: 'Owner Address', align: 'center' },
             // { id: 'vehicleStatus', label: 'Vehicle Status', align: 'center' },
             { id: 'status', label: 'Payment Status', align: 'center' },
+            { id: 'settled', label: 'Settled', align: 'center' },
           ]}
           searchTitle="Search Ticket #..."
           TABLE_DATA={citationList}

@@ -99,6 +99,23 @@ export default function PaidCitationRecords() {
               {`${data.invoice.status.toUpperCase()}`}
             </span>
           ),
+          settled: (
+            <>
+              <span
+                style={{
+                  fontWeight: 'bold',
+                  color: data?.invoice?.expired === 'no' ? 'red' : 'blue',
+                }}
+              >
+                {`${data?.invoice?.expired?.toUpperCase()}`}
+                <Tooltip title={data?.invoice?.expired === 'no' ? "Expired, unsettled within 72 hours" : "Settled within 72 hours"}>
+                  <IconButton>
+                    <Iconify icon={'mdi:information-outline'} width={25} height={25} color={data?.invoice?.expired === 'no' ? 'red' : 'blue'} />
+                  </IconButton>
+                </Tooltip>
+              </span>
+            </>
+          ),
           violations: (
             <>
               {violationsList?.map((violations, index) => {
@@ -180,6 +197,7 @@ export default function PaidCitationRecords() {
             // { id: 'ownerAddress', label: 'Owner Address', align: 'center' },
             // { id: 'vehicleStatus', label: 'Vehicle Status', align: 'center' },
             { id: 'status', label: 'Payment Status', align: 'center' },
+            { id: 'settled', label: 'Settled', align: 'center' },
           ]}
           searchTitle="Search Ticket #..."
           TABLE_DATA={citationList}
