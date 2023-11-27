@@ -39,6 +39,10 @@ export default function LoginForm() {
 
   const { mutate: loginUser, isLoading: loginUserLoading } = useMutation((payload) => login(payload), {
     onSuccess: (data) => {
+      if(data.data.user.role === 'enforcer') {
+        toast.error("Invalid credentials");
+        return;
+      }
       setLocalStorageItem('userToken', data.data.token, 9999);
       setLocalStorageItem('userData', data.data.user, 9999);
       if (data.data.user.role === 'admin') {

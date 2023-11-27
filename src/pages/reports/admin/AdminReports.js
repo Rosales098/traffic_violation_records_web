@@ -1,15 +1,27 @@
+/* eslint-disable arrow-body-style */
+/* eslint-disable react/jsx-key */
 import React, { useEffect, useState, useRef } from 'react';
-import { Container, Typography, Box, Checkbox, FormControlLabel, Stack, Grid, TextField } from '@mui/material';
+import {
+  Container,
+  Typography,
+  Box,
+  Checkbox,
+  FormControlLabel,
+  Stack,
+  Grid,
+  TextField,
+  capitalize,
+} from '@mui/material';
 import { LoadingButton, DesktopDatePicker } from '@mui/lab';
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import { CChart, CChartBar } from '@coreui/react-chartjs';
 import moment from 'moment';
+import { useForm } from 'react-hook-form';
 
 // components
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import DialogModal from '../../../components/dialog-modal/DialogModal';
 import Page from '../../../components/Page';
 import AppTable from '../../../components/table/AppTable';
 import CardContainer from '../../../components/CardContainer';
@@ -17,12 +29,14 @@ import { FormProvider, RHFTextField } from '../../../components/hook-form';
 
 // api
 import reportsApi from '../../../service/reportsApi';
+import ViolationsApi from '../../../service/ViolationsApi';
+import { DateModal } from './DateModal';
 
 const AdminReports = () => {
   const sectionRefs = useRef(null);
 
   const defaultValues = {
-    reportType: undefined,
+    // violationId: null,
     yearStart: '',
     yearEnd: '',
     quarterYear: '',
@@ -36,6 +50,9 @@ const AdminReports = () => {
   const [graphLabel, setGraphLabel] = useState([]);
   const [graphData, setGraphData] = useState([]);
   const [reportData, setReportData] = useState([]);
+  const [violationList, setViolationList] = useState([]);
+  const [topViolation, setTopViolation] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const monthList = [
     { value: 1, label: 'January' },
@@ -52,7 +69,9 @@ const AdminReports = () => {
     { value: 12, label: 'December' },
   ];
 
-  const { getIncomeReports } = reportsApi;
+  const { getIncomeReports, getViolationReports, getTopCommittedViolations } = reportsApi;
+  const { getViolations } = ViolationsApi;
+
   const { mutate: fetchReport, isLoading: isLoad } = useMutation((payload) => getIncomeReports(payload), {
     onSuccess: (result) => {
       const graphLabel = [];
@@ -86,12 +105,38 @@ const AdminReports = () => {
     },
   });
 
-  const validationSchema = Yup.object().shape({
-    reportType: Yup.string().required('Report Type is required'),
+  const { mutate: fetchTop } = useMutation((payload) => getTopCommittedViolations(payload), {
+    onSuccess: (result) => {
+      console.log(result.data);
+      setTopViolation(result?.data);
+    },
+    onError: (data) => {
+      console.log(data);
+      toast.error('Something went wrong');
+    },
   });
 
+  const {
+    data: violationData,
+    status: violationStatus,
+    isFetching: violationIsFetching,
+  } = useQuery(['get-all-violations'], () => getViolations(), {
+    retry: 3, // Will retry failed requests 10 times before displaying an error
+  });
+
+  useEffect(() => {
+    if (violationStatus === 'success') {
+      setViolationList(
+        violationData.data?.map((data) => ({
+          value: data.id,
+          label: data.violation_name.toUpperCase(),
+        }))
+      );
+    }
+  }, [violationData, violationStatus]);
+
   const methods = useForm({
-    resolver: yupResolver(validationSchema),
+    // resolver: yupResolver(validationSchema),
     defaultValues,
   });
 
@@ -111,7 +156,7 @@ const AdminReports = () => {
   useEffect(() => {
     yearListHandler();
     reset({
-      reportType: 1,
+      violationId: violationData?.data[0]?.id,
       monthYear: new Date().getFullYear(),
       fromMonth: 1,
       toMonth: 1,
@@ -119,13 +164,14 @@ const AdminReports = () => {
       yearEnd: new Date().getFullYear(),
       quarterYear: new Date().getFullYear(),
     });
-  }, [reset]);
+  }, [reset, violationData?.data]);
 
   const onSubmit = async (data) => {
     let payload;
     switch (reportSelected) {
       case 1:
         payload = {
+          // violation_id: data.violationId,
           mode: 'yearly',
           yearStart: data.yearStart,
           yearEnd: data.yearEnd,
@@ -134,6 +180,7 @@ const AdminReports = () => {
 
       case 2:
         payload = {
+          // violation_id: data.violationId,
           mode: 'quarterly',
           year: data.quarterYear,
         };
@@ -141,6 +188,7 @@ const AdminReports = () => {
       case 3:
         // get the current year
         payload = {
+          // violation_id: data.violationId,
           mode: 'monthly',
           year: String(data.monthYear) === '' ? new Date().getFullYear() : data.monthYear,
           monthStart: data.fromMonth,
@@ -155,7 +203,7 @@ const AdminReports = () => {
     if (reportSelected == 1 && data.yearStart > data.yearEnd) {
       return toast.error('Incorrect years selected.');
     }
-    
+
     // eslint-disable-next-line eqeqeq
     if (reportSelected == 3 && parseInt(data.fromMonth, 10) > parseInt(data.toMonth, 10)) {
       return toast.error('Incorrect months selected.');
@@ -166,33 +214,47 @@ const AdminReports = () => {
       return toast.error('Incorrect dates selected.');
     }
 
-    fetchReport(payload);
+    await fetchReport(payload);
+    await fetchTop(payload);
+  };
+
+  const openDialog = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
     <Page title="Report">
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)} id="reports" ref={sectionRefs[0]}>
-        {/* <CardContainer title="Report Type" subtitle="Please select the type of report you would like to generate">
+        {/* <CardContainer
+          title="Violations"
+          // subtitle="Please select the v of report you would like to generate"
+        >
           <Box width="50%">
             <RHFTextField
-              disabled
-              name="reportType"
+              name="violationId"
               placeholder="Select Report Type"
               inputType="dropDown"
-              defaultValue={5}
-              dropDownData={[
-                { value: '1', label: 'Users' },
-                { value: '2', label: 'Posted Article' },
-                { value: '3', label: 'Used Links' },
-                { value: '4', label: 'Unused Links' },
-                { value: '5', label: 'Total Income' },
-              ]}
+              defaultValue={violationList[0]?.value}
+              dropDownData={violationList}
             />
           </Box>
         </CardContainer> */}
-
         <Box marginTop={2}>
           <CardContainer>
+            <Box width={200} marginTop={2} sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+              <LoadingButton
+                variant="contained"
+                color="primary"
+                sx={{ placeSelf: 'flex-end', width: 200 }}
+                onClick={() => setOpen(true)}
+              >
+                Print Report
+              </LoadingButton>
+            </Box>
             <Grid container spacing={3}>
               <Grid item xs={12} sm={6} md={3}>
                 <Box>
@@ -268,7 +330,7 @@ const AdminReports = () => {
 
         <Box>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={6} sx={{marginTop: -3}}>
+            <Grid item xs={12} sm={6} md={6} sx={{ marginTop: -3 }}>
               <Box>
                 <AppTable
                   hasButton={false}
@@ -296,18 +358,16 @@ const AdminReports = () => {
                       subTotal: `₱${data?.invoice?.sub_total}`,
                       discount: `₱${data?.invoice?.discount}`,
                       totalAmount: (
-                        <Typography
-                          sx={{ cursor: 'pointer' }}
-                          component={'span'}
-                          onClick={() => {}}
-                        >{`₱${parseInt(data?.invoice.total_amount, 10).toFixed(2)}`}</Typography>
+                        <Typography sx={{ cursor: 'pointer' }} component={'span'} onClick={() => {}}>{`₱${parseInt(
+                          data?.invoice.total_amount,
+                          10
+                        ).toFixed(2)}`}</Typography>
                       ),
                       totalPaid: (
-                        <Typography
-                          sx={{ cursor: 'pointer' }}
-                          component={'span'}
-                          onClick={() => {}}
-                        >{`₱${parseInt(data?.total_paid, 10).toFixed(2)}`}</Typography>
+                        <Typography sx={{ cursor: 'pointer' }} component={'span'} onClick={() => {}}>{`₱${parseInt(
+                          data?.total_paid,
+                          10
+                        ).toFixed(2)}`}</Typography>
                       ),
                     })) || []
                   }
@@ -315,7 +375,7 @@ const AdminReports = () => {
                 />
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6} md={6} sx={{marginTop: 3}}>
+            <Grid item xs={12} sm={6} md={6} sx={{ marginTop: 3 }}>
               <CardContainer>
                 <CChartBar
                   type="bar"
@@ -334,9 +394,59 @@ const AdminReports = () => {
                 />
               </CardContainer>
             </Grid>
+            <Typography sx={{ fontWeight: 'bold', marginLeft: 2, fontSize: 24 }}>Most committed violation</Typography>
+            <Grid item xs={12} sm={12} md={12} sx={{ marginTop: 0, display: 'flex', gap: 5 }}>
+              {topViolation?.data?.slice(0, 6).map((data) => {
+                return (
+                  <Typography sx={{ fontWeight: 'bold', fontSize: 20 }}>
+                    {data?.name}
+                    {data?.violation?.length > 0 ? (
+                      data?.violation?.map((data) => (
+                        <Box sx={{ display: 'flex', gap: 2 }}>
+                          <Typography sx={{ fontSize: 18 }}>{`-${data?.name}`}</Typography>
+                          <Typography sx={{ fontSize: 18 }}>{`${data?.total}x`}</Typography>
+                        </Box>
+                      ))
+                    ) : (
+                      <Typography sx={{ fontSize: 18 }}>-NO DATA</Typography>
+                    )}
+                  </Typography>
+                );
+              })}
+            </Grid>
+            <Grid item xs={12} sm={12} md={12} sx={{ marginTop: 3, display: 'flex', gap: 5 }}>
+              {topViolation?.data?.slice(6, 12).map((data) => {
+                return (
+                  <Typography sx={{ fontWeight: 'bold', fontSize: 20 }}>
+                    {data?.name}
+                    {data?.violation?.length > 0 ? (
+                      data?.violation?.map((data) => (
+                        <Box sx={{ display: 'flex', gap: 2 }}>
+                          <Typography sx={{ fontSize: 18 }}>{data?.name}</Typography>
+                          <Typography sx={{ fontSize: 18 }}>{`${data?.total}x`}</Typography>
+                        </Box>
+                      ))
+                    ) : (
+                      <Typography sx={{ fontSize: 18 }}>NO DATA</Typography>
+                    )}
+                  </Typography>
+                );
+              })}
+            </Grid>
           </Grid>
         </Box>
       </FormProvider>
+      <DialogModal
+        open={open}
+        handleClose={handleClose}
+        // eslint-disable-next-line no-nested-ternary
+        title={"Select Date Range"}
+        // subtitle={'Are you sure you want to delete this user?'}
+        buttons
+        width="sm"
+      >
+        <DateModal handleClose={handleClose}/>
+      </DialogModal>
     </Page>
   );
 };

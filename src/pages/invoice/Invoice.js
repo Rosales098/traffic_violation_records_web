@@ -66,7 +66,7 @@ export default function Invoice() {
       setInvoiceList(
         invoiceData?.data?.map((data) => ({
           tobeSearch: `${data?.citation?.violator?.last_name} ${data?.citation?.violator?.first_name} ${data?.citation?.violator?.middle_name}`,
-          id: <span>{`#${data.citation.tct}`}</span>,
+          id: <span>{`#${data?.citation?.tct}`}</span>,
           date: data.date,
           violations: (
             <>
@@ -81,9 +81,9 @@ export default function Invoice() {
           subTotal: `₱${data.sub_total}`,
           discount: `₱${data.discount}`,
           totalAmount: `₱${data.total_amount}`,
-          violator: `${capitalize(data?.citation?.violator?.last_name)}, ${capitalize(
-            data?.citation?.violator?.first_name
-          )} ${capitalize(data?.citation?.violator?.middle_name)}`,
+          violator: `${capitalize(data?.citation?.violator?.last_name || "")}, ${capitalize(
+            data?.citation?.violator?.first_name || ""
+          )} ${capitalize(data?.citation?.violator?.middle_name || "")}`,
           status: (
             <span
               style={{
