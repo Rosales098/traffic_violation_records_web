@@ -51,12 +51,6 @@ export default function PaidCitationRecords() {
   useEffect(() => {
     if (citationStatus === 'success') {
       const newList = citationData.data.filter((item) => item?.invoice?.status === 'paid');
-      console.log(newList);
-      const invoiceCreated = new Date(moment(newList[0].invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime(); // get milisecons
-      const invoicePaid = new Date(moment(newList[0].invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime();
-      const test = invoicePaid - invoiceCreated;
-      console.log(invoiceCreated, invoicePaid);
-      console.log(test / 1000 / 60 / 60); // convert miliseconds to hour
       setCitationList(
         newList.map((data) => ({
           action: (
