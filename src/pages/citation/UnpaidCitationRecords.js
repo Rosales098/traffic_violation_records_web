@@ -141,19 +141,19 @@ export default function UnpaidCitationRecords() {
           licenseNumber: data.license.license_number === '0' ? 'N/A' : data.license.license_number,
           type: data.license.license_number === '0' ? 'N/A' : data.license.license_type.toUpperCase(),
           licenseStatus: data.license.license_number === '0' ? 'N/A' : data.license.license_status.toUpperCase(),
-          make: data.vehicle.make.toUpperCase(),
-          model: data.vehicle.model.toUpperCase(),
-          plate: data.vehicle.plate_number,
-          color: data.vehicle.color.toUpperCase(),
-          class: data.vehicle.class || 'N/A',
-          bodyMarkings: data.vehicle.body_markings || 'N/A',
-          owner: data.vehicle.registered_owner.toUpperCase(),
-          ownerAddress: data.vehicle.owner_address,
+          make: data?.vehicle?.make?.toUpperCase(),
+          model: data?.vehicle?.model?.toUpperCase(),
+          plate: data?.vehicle?.plate_number,
+          color: data?.vehicle?.color?.toUpperCase(),
+          class: data?.vehicle?.class || 'N/A',
+          bodyMarkings: data?.vehicle?.body_markings || 'N/A',
+          owner: data.vehicle?.registered_owner?.toUpperCase(),
+          ownerAddress: data?.vehicle?.owner_address,
           vehicleStatus:
-            data.vehicle.registered_owner.toUpperCase() === 'NONE' ||
-            data.vehicle.registered_owner.toUpperCase() === 'N/A'
+            data?.vehicle?.registered_owner?.toUpperCase() === 'NONE' ||
+            data?.vehicle?.registered_owner?.toUpperCase() === 'N/A'
               ? 'N/A'
-              : data.vehicle.vehicle_status.toUpperCase(),
+              : data?.vehicle?.vehicle_status?.toUpperCase(),
         }))
       );
     }

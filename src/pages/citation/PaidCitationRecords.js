@@ -51,6 +51,12 @@ export default function PaidCitationRecords() {
   useEffect(() => {
     if (citationStatus === 'success') {
       const newList = citationData.data.filter((item) => item?.invoice?.status === 'paid');
+      console.log(newList);
+      const invoiceCreated = new Date(moment(newList[0].invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime(); // get milisecons
+      const invoicePaid = new Date(moment(newList[0].invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime();
+      const test = invoicePaid - invoiceCreated;
+      console.log(invoiceCreated, invoicePaid);
+      console.log(test / 1000 / 60 / 60 > 72); // convert miliseconds to hour
       setCitationList(
         newList.map((data) => ({
           action: (
@@ -104,13 +110,46 @@ export default function PaidCitationRecords() {
               <span
                 style={{
                   fontWeight: 'bold',
-                  color: data?.invoice?.expired === 'no' ? 'red' : 'blue',
+                  color:
+                    (new Date(moment(data.invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime() -
+                      new Date(moment(newList[0].invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
+                      1000 /
+                      60 /
+                      60 >=
+                      72
+                      ? 'red'
+                      : 'blue',
                 }}
               >
-                {`${data?.invoice?.expired?.toUpperCase()}`}
-                <Tooltip title={data?.invoice?.expired === 'no' ? "Expired, unsettled within 72 hours" : "Settled within 72 hours"}>
+                YES
+                <Tooltip
+                  title={
+                    (new Date(moment(data.invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime() -
+                      new Date(moment(newList[0].invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
+                      1000 /
+                      60 /
+                      60 >=
+                      72
+                      ? 'Expired, unsettled within 72 hours'
+                      : 'Settled within 72 hours'
+                  }
+                >
                   <IconButton>
-                    <Iconify icon={'mdi:information-outline'} width={25} height={25} color={data?.invoice?.expired === 'no' ? 'red' : 'blue'} />
+                    <Iconify
+                      icon={'mdi:information-outline'}
+                      width={25}
+                      height={25}
+                      color={
+                        (new Date(moment(data.invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime() -
+                          new Date(moment(newList[0].invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
+                          1000 /
+                          60 /
+                          60 >=
+                          72
+                          ? 'red'
+                          : 'blue'
+                      }
+                    />
                   </IconButton>
                 </Tooltip>
               </span>
