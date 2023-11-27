@@ -112,7 +112,7 @@ export default function PaidCitationRecords() {
                   fontWeight: 'bold',
                   color:
                     (new Date(moment(data.invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime() -
-                      new Date(moment(newList[0].invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
+                      new Date(moment(data.invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
                       1000 /
                       60 /
                       60 >=
@@ -125,7 +125,7 @@ export default function PaidCitationRecords() {
                 <Tooltip
                   title={
                     (new Date(moment(data.invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime() -
-                      new Date(moment(newList[0].invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
+                      new Date(moment(data.invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
                       1000 /
                       60 /
                       60 >=
@@ -141,7 +141,7 @@ export default function PaidCitationRecords() {
                       height={25}
                       color={
                         (new Date(moment(data.invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime() -
-                          new Date(moment(newList[0].invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
+                          new Date(moment(data.invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
                           1000 /
                           60 /
                           60 >=
