@@ -56,7 +56,7 @@ export default function PaidCitationRecords() {
       const invoicePaid = new Date(moment(newList[0].invoice.updated_at).format('YYYY-MM-DD HH:mm:ss')).getTime();
       const test = invoicePaid - invoiceCreated;
       console.log(invoiceCreated, invoicePaid);
-      console.log(test / 1000 / 60 / 60 > 72); // convert miliseconds to hour
+      console.log(test / 1000 / 60 / 60); // convert miliseconds to hour
       setCitationList(
         newList.map((data) => ({
           action: (
@@ -115,10 +115,10 @@ export default function PaidCitationRecords() {
                       new Date(moment(data.invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
                       1000 /
                       60 /
-                      60 >=
+                      60 <=
                       72
-                      ? 'red'
-                      : 'blue',
+                      ? 'blue'
+                      : 'red',
                 }}
               >
                 YES
@@ -128,10 +128,10 @@ export default function PaidCitationRecords() {
                       new Date(moment(data.invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
                       1000 /
                       60 /
-                      60 >=
+                      60 <=
                       72
-                      ? 'Expired, unsettled within 72 hours'
-                      : 'Settled within 72 hours'
+                      ? 'Settled within 72 hours'
+                      : 'Expired, unsettled within 72 hours'
                   }
                 >
                   <IconButton>
@@ -144,10 +144,10 @@ export default function PaidCitationRecords() {
                           new Date(moment(data.invoice.created_at).format('YYYY-MM-DD HH:mm:ss')).getTime()) /
                           1000 /
                           60 /
-                          60 >=
+                          60 <=
                           72
-                          ? 'red'
-                          : 'blue'
+                          ? 'blue'
+                          : 'red'
                       }
                     />
                   </IconButton>
