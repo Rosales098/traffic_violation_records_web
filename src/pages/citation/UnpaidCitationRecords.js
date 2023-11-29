@@ -50,7 +50,7 @@ export default function UnpaidCitationRecords() {
 
   useEffect(() => {
     if (citationStatus === 'success') {
-      const newList = citationData.data.filter((item) => item?.invoice?.status === 'unpaid');
+      const newList = citationData.data.filter((item) => item?.invoice?.status !== 'paid');
       setCitationList(
         newList.map((data) => ({
           action: (
@@ -138,12 +138,12 @@ export default function UnpaidCitationRecords() {
           nationality: data.violator.nationality,
           phoneNumber: data.violator.phone_number,
           dob: moment(data.violator.dob).format('YYYY-MM-DD'),
-          licenseNumber: data.license.license_number === '0' ? 'N/A' : data.license.license_number,
+          licenseNumber: (data.license.license_number === '0') || (data.license.license_number === null) ? 'N/A' : data.license.license_number,
           type: data.license.license_number === '0' ? 'N/A' : data.license.license_type.toUpperCase(),
           licenseStatus: data.license.license_number === '0' ? 'N/A' : data.license.license_status.toUpperCase(),
           make: data?.vehicle?.make?.toUpperCase(),
           model: data?.vehicle?.model?.toUpperCase(),
-          plate: data?.vehicle?.plate_number,
+          plate: (data?.vehicle?.plate_number === 'n/a') || (data?.vehicle?.plate_number === null) ? 'N/A' : data?.vehicle?.plate_number,
           color: data?.vehicle?.color?.toUpperCase(),
           class: data?.vehicle?.class || 'N/A',
           bodyMarkings: data?.vehicle?.body_markings || 'N/A',
