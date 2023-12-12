@@ -29,6 +29,7 @@ import ForgotPassword from '../pages/forgot-password/ForgotPassword';
 import ResetPassword from '../pages/forgot-password/ResetPassword';
 import VehicleMake from '../pages/vehicle-make/VehicleMake';
 import VehicleClass from '../pages/vehicle-class/VehicleClass';
+import CreateCitation from '../pages/citation/CreateCitationRecords';
 
 // ----------------------------------------------------------------------
 
@@ -43,6 +44,7 @@ export default function UserRoute() {
         <Route path="/" element={<DashboardLayout />}>
           <Route path="/" element={<DashboardApp />} />
           <Route path="/dashboard" element={<DashboardApp />} />
+          <Route path="citation" element={<CreateCitation />} />
           <Route path="violations-records" element={<CitationRecords />} />
           <Route path="violations-records/paid" element={<PaidCitationRecords />} />
           <Route path="violations-records/unpaid" element={<UnpaidCitationRecords />} />
