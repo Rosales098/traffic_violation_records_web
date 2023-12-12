@@ -20,8 +20,6 @@ import { FormProvider, RHFTextField } from '../hook-form';
 import { setLicense, setWithLicense } from '../../store/CitationSlice';
 import { licenseSchema } from '../../yup-schema/licenseInfoSchema';
 
-
-
 // ----------------------------------------------------------------------
 const licenseType = [
   { value: 'Professional', label: 'Professional' },
@@ -36,8 +34,8 @@ const status = [
 export default function CreateLicense() {
   const dispatch = useDispatch();
   const { license, withLicense } = useSelector((store) => store.citation);
-  console.log(license)
-  console.log(withLicense)
+  console.log(license);
+  console.log(withLicense);
   const defaultValues = {
     licenseNumber: '',
     licenseType: 'Professional',
@@ -52,23 +50,24 @@ export default function CreateLicense() {
   const {
     handleSubmit,
     reset,
+    setValue,
     formState: { isSubmitting },
   } = methods;
 
   useEffect(() => {
-    if(!_.isEmpty(license)) {
+    if (!_.isEmpty(license)) {
       reset({
-        licenseNumber: license.licenseNumber,
+        licenseNumber: license.licenseNumber || 'XXX-XX-XXXXXX',
         licenseType: license.licenseType,
         licenseStatus: license.licenseStatus,
-      })
+      });
     }
-  }, [license, reset])
+  }, [license, reset]);
 
   const onSubmit = async (data) => {
     console.log(data);
-    dispatch(setLicense(data))
-    toast.success('Saved Locally')
+    dispatch(setLicense(data));
+    toast.success('Saved Locally');
   };
 
   return (
@@ -80,11 +79,21 @@ export default function CreateLicense() {
             row
             aria-labelledby="demo-row-radio-buttons-group-label"
             name="withLicense"
-            value={withLicense ? "withLicense" : "withoutLicense"}
+            value={withLicense ? 'withLicense' : 'withoutLicense'}
             onChange={(e) => dispatch(setWithLicense(e.target.value === 'withLicense'))}
           >
-            <FormControlLabel value="withLicense" control={<Radio />} label="With License #" />
-            <FormControlLabel value="withoutLicense" control={<Radio />} label="Without License #" />
+            <FormControlLabel
+              value="withLicense"
+              control={<Radio />}
+              label="With License #"
+              onClick={() => setValue('licenseNumber', '')}
+            />
+            <FormControlLabel
+              value="withoutLicense"
+              control={<Radio />}
+              label="Without License #"
+              onClick={() => setValue('licenseNumber', 'N/A')}
+            />
           </RadioGroup>
         </FormControl>
         <Stack spacing={3}>
@@ -93,11 +102,23 @@ export default function CreateLicense() {
           </Stack>
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <RHFTextField name="licenseType" label="License Type" inputType="dropDown" dropDownData={licenseType} disabled={!withLicense} />
+            <RHFTextField
+              name="licenseType"
+              label="License Type"
+              inputType="dropDown"
+              dropDownData={licenseType}
+              disabled={!withLicense}
+            />
           </Stack>
 
           <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-            <RHFTextField name="licenseStatus" label="Status" inputType="dropDown" dropDownData={status} disabled={!withLicense} />
+            <RHFTextField
+              name="licenseStatus"
+              label="Status"
+              inputType="dropDown"
+              dropDownData={status}
+              disabled={!withLicense}
+            />
           </Stack>
 
           <Stack direction="row" spacing={4}>

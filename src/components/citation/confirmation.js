@@ -19,6 +19,7 @@ import {
   setVehicle,
   setWithLicense,
   setWithPlate,
+  setSelectedViolator
 } from '../../store/CitationSlice';
 
 // ----------------------------------------------------------------------
@@ -66,6 +67,7 @@ export default function Confirmation() {
       dispatch(setWithLicense(true));
       dispatch(setWithPlate(true));
       dispatch(setRegistered(true));
+      dispatch(setSelectedViolator(null));
       navigate('/violations-records/unpaid')
     },
     onError: (data) => {
@@ -74,7 +76,7 @@ export default function Confirmation() {
       setIsLoading(false);
     },
   });
-
+  console.log(withLicense)
   const onSubmit = async () => {
     setIsLoading(true);
     const payload = {
@@ -99,8 +101,8 @@ export default function Confirmation() {
       color: vehicle.color,
       class: vehicle.class || 'N/A',
       body_markings: vehicle.bodyMarkings || 'N/A',
-      registered_owner: vehicle.registeredOwner,
-      owner_address: vehicle.ownerAddress || 'N/A',
+      registered_owner: registered ? vehicle.registeredOwner : 'N/A',
+      owner_address: registered ? vehicle.ownerAddress : 'N/A',
       vehicle_status: vehicle.vehicleStatus,
       violations: `[${violationIds}]`,
       tct: placeAndDate.tct,
@@ -188,7 +190,7 @@ export default function Confirmation() {
             </Box>
             <Box>
               <Typography sx={{ textTransform: 'capitalize', fontSize: 18, fontWeight: 'bold' }}>
-                {license.licenseNumber || 'N/A'}
+                {withLicense ? license.licenseNumber : 'N/A'}
               </Typography>
               <Typography sx={{ textTransform: 'capitalize', fontSize: 18, fontWeight: 'bold' }}>
                 {license.licenseType || 'N/A'}
