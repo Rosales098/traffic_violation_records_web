@@ -19,13 +19,20 @@ const CitationSlice = createSlice({
   initialState,
   reducers: {
     setViolations: (state, action) => {
-      const inArray = state.violations.some(obj => obj.id === action.payload.id)
-      console.log(inArray)
+      const inArray = state.violations.some((obj) => obj.id === action.payload.id);
+      console.log(inArray);
       if (inArray) {
-        toast.error('Violation is already added.')
+        toast.error('Violation is already added.');
         return;
       }
       state.violations.push(action.payload);
+    },
+    // eslint-disable-next-line arrow-body-style
+    removeAViolation: (state, action) => {
+      return {
+        ...state,
+        violations: state.violations.filter((obj) => obj.id !== action.payload),
+      };
     },
     removeViolations: (state) => ({
       ...state,
@@ -71,6 +78,7 @@ const CitationSlice = createSlice({
 });
 export const {
   setViolations,
+  removeAViolation,
   removeViolations,
   setViolator,
   setLicense,
@@ -80,6 +88,6 @@ export const {
   setWithPlate,
   setRegistered,
   setVehicles,
-  setSelectedViolator
+  setSelectedViolator,
 } = CitationSlice.actions;
 export default CitationSlice.reducer;

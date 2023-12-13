@@ -14,7 +14,7 @@ import ViolationsApi from '../../service/ViolationsApi';
 import ViolationCategoriesApi from '../../service/ViolationCategoriesApi';
 
 import { setViolation, removeViolation } from '../../store/ViolationSlice';
-import { setViolations } from '../../store/CitationSlice';
+import { setViolations, removeAViolation } from '../../store/CitationSlice';
 
 // ----------------------------------------------------------------------
 
@@ -101,7 +101,17 @@ export default function ViolationsComponent() {
     <Container>
       <Box sx={{ backgroundColor: 'white', marginTop: 2, padding: 5, borderRadius: 2, display: 'flex', gap: 3 }}>
         {violations.map((data) => (
-          <Typography sx={{ fontSize: 18 }}>{data.violation_name}</Typography>
+          // eslint-disable-next-line react/jsx-key
+          <Box sx={{display: 'flex', alignItems: 'center', border: 1, borderColor: 'gray', borderRadius: 2, padding: 1}}>
+            <Typography sx={{ fontSize: 18, textTransform: 'capitalize' }}>{data.violation_name}</Typography>
+            <IconButton
+              onClick={async () => {
+                await dispatch(removeAViolation(data.id));
+              }}
+            >
+              <Iconify icon="material-symbols:delete-outline" />
+            </IconButton>
+          </Box>
         ))}
       </Box>
       <AppTable
