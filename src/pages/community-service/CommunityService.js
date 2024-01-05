@@ -28,10 +28,11 @@ export default function CommunityService() {
 
   useEffect(() => {
     if (communityServiceStatus === 'success') {
+      console.log(communityServiceData)
       setCommunityServiceList(
         communityServiceData.data.map((data) => ({
           id: data.id,
-          name: `${capitalize(data?.citation?.violator?.last_name)}, ${capitalize(data?.citation?.violator?.first_name)} ${capitalize(data?.citation?.violator?.middle_name)}`,
+          name: data?.citation?.violator?.last_name ? `${capitalize(data?.citation?.violator?.last_name)}, ${capitalize(data?.citation?.violator?.first_name)} ${capitalize(data?.citation?.violator?.middle_name)}` : "N/A",
           tobeSearch: `${data?.citation?.violator?.last_name} ${data?.citation?.violator?.first_name} ${data?.citation?.violator?.middle_name}`,
           service: data.service.service_name,
           timeToRender: data.service.time_to_render,

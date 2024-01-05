@@ -62,8 +62,18 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
+      {/* <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
         <Logo />
+      </Box> */}
+      
+      <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
+        <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
+          <Box
+            component="img"
+            src="/static/illustrations/rtmo_logo.png"
+            sx={{ width: 160, position: 'absolute', top: -90}}
+          />
+        </Stack>
       </Box>
 
       <Box sx={{ mb: 5, mx: 2.5 }}>
@@ -93,7 +103,7 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
           <Box
             component="img"
-            src="/static/illustrations/illustration_avatar.png"
+            src="/static/illustrations/rtmo_logo.png"
             sx={{ width: 100, position: 'absolute', top: -50 }}
           />
 
