@@ -4,6 +4,7 @@ import UserSlice from './UserSlice';
 import ViolationSlice from './ViolationSlice';
 import ServiceTypeSlice from './ServiceTypeSlice';
 import VehicleSlice from './VehicleSlice';
+import CitationSlice from './CitationSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     violation: ViolationSlice,
     serviceTypes: ServiceTypeSlice,
     vehicle: VehicleSlice,
+    citation: CitationSlice
   }
 })
 

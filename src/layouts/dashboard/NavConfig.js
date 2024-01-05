@@ -16,11 +16,21 @@ const navConfig = [
   //   path: '/violations-records',
   //   icon: getIcon('mdi:account-warning'),
   // },
+  // {
+  //   title: 'Citation',
+  //   path: '/citation',
+  //   icon: getIcon('healthicons:medical-records-outline'),
+  // },
   {
     title: 'Violations Records',
     path: '/violations-records',
     icon: getIcon('mdi:account-warning'),
     children: [
+      {
+        title: 'Citation',
+        path: '/citation',
+        // icon: getIcon('healthicons:medical-records-outline')
+      },
       {
         title: 'Paid Violations',
         path: 'violations-records/paid',

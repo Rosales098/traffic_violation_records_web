@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
